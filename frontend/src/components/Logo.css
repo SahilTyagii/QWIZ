@@ -1,0 +1,14 @@
+.I {
+    color: #ff0;
+  }
+  
+  .logo {
+    font-size: 10rem;
+    text-shadow: -14px 14px 0 #000, 0 -5px 0 #000000, 5px 0 0 #000, -5px 0 0 #000, 0 5px 0 #000000, 5px 5px 0 #000000, -5px -5px 0 #000000;
+    transition: text-shadow 1s;
+  }
+  
+  .logo:hover {
+    text-shadow: 0 -5px 0 #000000, 5px 0 0 #000, -5px 0 0 #000, 0 5px 0 #000000, 5px 5px 0 #000000, -5px -5px 0 #000000;
+    transition: text-shadow 1s;
+  }
