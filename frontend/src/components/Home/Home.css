@@ -1,0 +1,29 @@
+body {
+    margin: 0;
+    background-color: #007BFF;
+    color: white;
+    text-align: center;
+  }
+  
+  .my-red-btn {
+    box-shadow: 4px 14px 0 #000, -4px 14px 0 #000, 4px 7px 0 #000, -4px 7px 0 #000, 0 -4px 0 #000, 4px 0 0 #000, -4px 0 0 #000, 3px 3px 0 #000, -3px -3px 0 #000, 3px -3px 0 #000, -3px 3px 0 #000;
+    transition: box-shadow 0.5s;
+    animation: bounce .5s infinite alternate;
+  }
+  
+  .my-red-btn:hover {
+    box-shadow: 0 2px 0 #000, 0 2px 0 #000, 4px 2px 0 #000, -4px 2px 0 #000, 0 -4px 0 #000, 4px 0 0 #000, -4px 0 0 #000, 3px 3px 0 #000, -3px -3px 0 #000, 3px -3px 0 #000, -3px 3px 0 #000;
+  }
+  
+  @keyframes bounce {
+    to { transform: translateY(-25px); }
+  }
+  
+  .my-black-btn {
+    box-shadow: 0 2px 0 #fff, 0 2px 0 #fff, 4px 2px 0 #fff, -4px 2px 0 #fff, 0 -4px 0 #fff, 4px 0 0 #fff, -4px 0 0 #fff, 3px 3px 0 #fff, -3px -3px 0 #fff, 3px -3px 0 #fff, -3px 3px 0 #fff;
+    transform: rotate(-7deg);
+    transition: transform .2s ease-in-out;
+  }
+  .my-black-btn:hover {
+    transform: rotate(0deg);
+  }

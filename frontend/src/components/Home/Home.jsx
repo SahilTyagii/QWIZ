@@ -1,18 +1,14 @@
 import React from 'react'
-import './App.css'
-import Navbar from './Navbar/Navbar'
-import Logo from './Logo/Logo'
-import Fox from '../assets/fox.png'
-import Porc from '../assets/porc.png'
-import Waves from '../assets/blue_wave.png'
-// import Background from "../assets/bgr2.jpg"
+import './Home.css'
+import Logo from '../Logo/Logo.jsx'
+import Fox from '../../assets/fox.png'
+import Porc from '../../assets/porc.png'
+import Waves from '../../assets/blue_wave.png'
 
-function App() {
 
+function Home() {
   return (
-    // style={{backgroundImage:`url(${Background})`, width: "100%", backgroundSize:"cover",}}
-    <div className='w-screen h-screen'>
-      <Navbar />
+    <>
       <div className='w-auto h-auto flex flex-col flex-wrap justify-center'>
         <Logo />
         <p className='text-3xl flex justify-center text-slate-800'>
@@ -36,10 +32,8 @@ function App() {
       </div>
       <img className='md:size-96 size-60 mx-auto  hover:scale-110 ease-in-out duration-300 z-10' src={Porc} alt="porcupine" />
       </div>
-      
-      
-    </div>
+    </>
   )
 }
 
-export default App
+export default Home
