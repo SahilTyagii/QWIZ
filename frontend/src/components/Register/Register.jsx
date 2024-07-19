@@ -6,7 +6,7 @@ import Waves from '../../assets/blue_wave.png'
 function Register() {
   return (
     <div className='flex justify-center items-center p-12'>
-      <div className='bg-[#ECDDD9] flex flex-col justify-center lg:w-1/4 w-3/4 md:w-2/4 rounded-xl border-2 border-slate-700 p-1 or-shadow z-10'>
+      <div className='bg-[#ECDDD9] flex flex-col justify-center lg:w-1/4 w-3/4 rounded-xl border-2 border-slate-700 p-1 or-shadow z-10'>
         <div className='m-6'>
             <h1 className='text-slate-700 text-4xl'>Register</h1>
         </div>
@@ -31,10 +31,10 @@ function Register() {
             </form>
         </div>
       </div>
-      <div className='w-screen flex flex-row justify-center absolute bg-white' style={{backgroundImage: "url(https://www.transparenttextures.com/patterns/arches.png)", backgroundColor:"white"}}>
-        <img className='w-screen' src={Waves} alt="waves" />
+      <div className='w-full flex flex-row justify-center absolute bg-white' style={{backgroundImage: "url(https://www.transparenttextures.com/patterns/arches.png)", backgroundColor:"white"}}>
+        <img className='w-full' src={Waves} alt="waves" />
       </div>
-      <div className='w-screen h-1/2 absolute bottom-0 -z-10' style={{backgroundImage: "url(https://www.transparenttextures.com/patterns/arches.png)", backgroundColor:"white"}}>
+      <div className='w-full h-1/2 absolute bottom-0 -z-10' style={{backgroundImage: "url(https://www.transparenttextures.com/patterns/arches.png)", backgroundColor:"white"}}>
       </div>
     </div>
   )
