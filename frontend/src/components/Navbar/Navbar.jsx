@@ -1,6 +1,5 @@
 import React from 'react'
 import Name from '../../assets/name.png'
-import Avatar from '../../avatars/8.png'
 import { NavLink } from 'react-router-dom'
 
 const Navbar = () => {
@@ -13,7 +12,7 @@ const Navbar = () => {
         <NavLink to='/register'><button className='bg-red-700 rounded-full text-xl text-white py-1 px-4 btn-outline border-black border-2 hover:bg-red-900 h-12'>Register</button></NavLink>
         </div>
         <div className='rounded-full overflow-hidden bg-white hover:scale-110 ease-in-out duration-200 hidden'>
-          <img className='size-16 overflow-hidden' src={Avatar} alt="" />
+          <img className='size-16 overflow-hidden' src='avatars/0.png' alt="" />
         </div>
       </nav>
     </div>
