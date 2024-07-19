@@ -4,11 +4,12 @@ import Logo from "../Logo/Logo.jsx";
 import Fox from "../../assets/fox.png";
 import Porc from "../../assets/porc.png";
 import Pattern from "../Pattern.jsx";
+import { Link } from "react-router-dom"
 
 function Home() {
   return (
     <>
-      <div className="w-full h-full flex flex-col flex-wrap justify-center">
+      <div className="w-full h-full flex flex-col flex-wrap justify-centerfall">
         <Logo />
         <p className="text-3xl flex justify-center text-slate-800">
           <img
@@ -34,9 +35,11 @@ function Home() {
 
         <div className="flex flex-col">
           <div className="m-1">
+            <Link to='/options'>
             <button className="bg-red-700 rounded-full sm:px-20 px-8 py-2 md:px-36 md:py-3 text-3xl my-red-btn hover:bg-red-900 my-10 z-10">
               Singleplayer
             </button>
+            </Link>
           </div>
           <div className="m-1">
             <button className="bg-black rounded-full sm:px-20 px-12 py-2 md:px-36 md:py-3 text-3xl text-white my-black-btn z-10">

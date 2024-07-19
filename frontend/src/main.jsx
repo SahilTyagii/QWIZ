@@ -7,6 +7,7 @@ import './index.css'
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
 import Login from './components/Login/Login'
 import Register from './components/Register/Register'
+import Options from './components/Options/Options'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -14,6 +15,7 @@ const router = createBrowserRouter(
       <Route path='' element={<Home />}/>
       <Route path='login' element={<Login />}/>
       <Route path='register' element={<Register />}/>
+      <Route path='options' element={<Options />} />
     </Route>
   )
 )

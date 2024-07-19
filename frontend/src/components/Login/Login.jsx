@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Login.css";
 import Pattern from "../Pattern";
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 const Login = () => {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div className="flex justify-center items-center p-12">
       <div className="bg-[#ECDDD9] flex flex-col justify-center lg:w-1/4 w-3/4 rounded-xl border-2 border-slate-700 p-1 or-shadow z-10">
@@ -34,13 +42,21 @@ const Login = () => {
               >
                 Password
               </label>
-              <input
-                className="text-lg bg-white p-2 rounded-md border-slate-700 border-2 border-dashed focus:border-solid focus:outline-none or-shadow text-gray-700"
-                type="password"
-                name="username"
-                id="username"
-                placeholder="Enter your password"
-              />
+              <div className="flex items-center relative">
+                <input
+                  className="text-lg bg-white p-2 rounded-md border-slate-700 border-2 border-dashed focus:border-solid focus:outline-none or-shadow text-gray-700 w-full"
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  id="password"
+                  placeholder="Enter your password"
+                />
+                <span
+                  className="absolute right-3 text-black cursor-pointer"
+                  onClick={togglePasswordVisibility}
+                >
+                  {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                </span>
+              </div>
             </div>
             <div className="my-6 h-12 mx-1 lg:mx-3">
               <button
@@ -61,11 +77,6 @@ const Login = () => {
           </form>
         </div>
       </div>
-      {/* <div className='w-full flex flex-row justify-center absolute bg-white bottom-0 h-1/2' style={{backgroundImage: "url(https://www.transparenttextures.com/patterns/arches.png)", backgroundColor:"white"}}>
-        <img className='w-full absolute top-0' src={Waves} alt="waves" />
-        <div className='w-full h-1/2 absolute bottom-0 -z-10' style={{backgroundImage: "url(https://www.transparenttextures.com/patterns/arches.png)", backgroundColor:"white"}}>
-      </div>
-      </div> */}
       <Pattern />
     </div>
   );

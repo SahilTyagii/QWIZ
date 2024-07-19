@@ -4,11 +4,18 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import "./Register.css";
 import Pattern from "../Pattern";
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 function Register() {
   const idxs = [0, 1, 2, 3, 4, 5, 6, 7, 8];
   const [avatar, setAvatar] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   return (
     <div className="flex justify-center items-center p-12 h-full">
@@ -38,7 +45,7 @@ function Register() {
               </button>
             </div>
             {isOpen && (
-              <div className="text-black absolute items-start p-2 w-auto bg-white/30 rounded-md grid grid-cols-3 mx-3 backdrop-blur-sm">
+              <div className="text-black absolute items-start p-2 w-auto bg-white/30 rounded-md grid grid-cols-3 mx-3 backdrop-blur-sm z-20">
                 {idxs.map((item) => (
                   <div
                     key={item}
@@ -85,13 +92,21 @@ function Register() {
               >
                 Password
               </label>
-              <input
-                className="text-lg bg-white p-2 rounded-md border-slate-700 border-2 border-dashed focus:border-solid focus:outline-none or-shadow text-gray-700"
-                type="password"
-                name="username"
-                id="username"
-                placeholder="Enter your password"
-              />
+              <div className="flex items-center relative">
+                <input
+                  className="text-lg bg-white p-2 rounded-md border-slate-700 border-2 border-dashed focus:border-solid focus:outline-none or-shadow text-gray-700 w-full"
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  id="password"
+                  placeholder="Enter your password"
+                />
+                <span
+                  className="absolute right-3 text-black cursor-pointer"
+                  onClick={togglePasswordVisibility}
+                >
+                  {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                </span>
+              </div>
             </div>
             <div className="my-6 h-12 mx-1 lg:mx-3">
               <button
