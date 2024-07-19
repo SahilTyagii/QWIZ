@@ -22,7 +22,7 @@ function Home() {
       <div className='flex md:flex-row flex-col md:justify-around flex-wrap justify-center' style={{backgroundImage: "url(https://www.transparenttextures.com/patterns/arches.png)", backgroundColor:"white"}}>
       <img className='md:size-96 size-60 mx-auto hover:scale-110 ease-in-out duration-300 z-10' src={Fox} alt="fox" />
 
-      <div className='flex flex-col w-full'>
+      <div className='flex flex-col'>
         <div className='m-1'>
         <button className='bg-red-700 rounded-full px-32 md:px-36 py-3 text-3xl my-red-btn hover:bg-red-900 my-10 z-10'>Singleplayer</button>
       </div>
