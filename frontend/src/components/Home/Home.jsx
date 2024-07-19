@@ -9,7 +9,7 @@ import Waves from '../../assets/blue_wave.png'
 function Home() {
   return (
     <>
-      <div className='w-auto h-auto flex flex-col flex-wrap justify-center'>
+      <div className='w-full h-full flex flex-col flex-wrap justify-center'>
         <Logo />
         <p className='text-3xl flex justify-center text-slate-800'>
         <img className='size-8 m-1' src="https://em-content.zobj.net/source/apple/391/brain_1f9e0.png"/>
@@ -17,7 +17,7 @@ function Home() {
         <img className='size-8 m-1' src="https://em-content.zobj.net/source/apple/391/nerd-face_1f913.png"/></p>
       </div>
       <div className='w-full flex flex-row justify-center absolute'>
-        <img className='w-screen' src={Waves} alt="waves" />
+        <img className='w-full' src={Waves} alt="waves" />
       </div>
       <div className='flex md:flex-row flex-col md:justify-around flex-wrap justify-center' style={{backgroundImage: "url(https://www.transparenttextures.com/patterns/arches.png)", backgroundColor:"white"}}>
       <img className='md:size-96 size-60 mx-auto hover:scale-110 ease-in-out duration-300 z-10' src={Fox} alt="fox" />
