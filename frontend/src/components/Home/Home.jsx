@@ -24,10 +24,10 @@ function Home() {
 
       <div className='flex flex-col'>
         <div className='m-1'>
-        <button className='bg-red-700 rounded-full px-32 md:px-36 py-3 text-3xl my-red-btn hover:bg-red-900 my-10 z-10'>Singleplayer</button>
+        <button className='bg-red-700 rounded-full sm:px-20 px-8 py-2 md:px-36 md:py-3 text-3xl my-red-btn hover:bg-red-900 my-10 z-10'>Singleplayer</button>
       </div>
       <div className='m-1'>
-        <button className='bg-black rounded-full px-36 py-3 text-3xl text-white my-black-btn z-10'>Multiplayer</button>
+        <button className='bg-black rounded-full sm:px-20 px-12 py-2 md:px-36 md:py-3 text-3xl text-white my-black-btn z-10'>Multiplayer</button>
       </div>
       </div>
       <img className='md:size-96 size-60 mx-auto  hover:scale-110 ease-in-out duration-300 z-10' src={Porc} alt="porcupine" />
