@@ -9,7 +9,7 @@ import he from "he"
 function Question() {
     const [points, setPoints] = useState([])
     const [questionCount, setQuestionCount] = useState(1)
-    const [time, setTime] = useState(60)
+    const [time, setTime] = useState(2000)
     const [timeOver, setTimeOver] = useState(false)
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
     const [question, setQuestion] = useState({
@@ -54,7 +54,10 @@ function Question() {
         ) : (
             <>
             <QcntAndTime questionCount = {questionCount} time = {time}/>
-            <Points points={points} sc={false}/>
+            <div className='lg:w-1/3 w-3/4 m-auto'>
+                <Points points={points} sc={false}/>
+            </div>
+            
 
             <QuestionCard question={question.question} shuffledAnswers={shuffledAnswers} onSelectAnswer={onSelectAnswer}/>
             </>
