@@ -3,7 +3,7 @@ import React from 'react'
 import Points from './Points'
 
 function ScoreCard(props) {
-    const score = props.points.reduce((accumulator, currentValue) => accumulator + currentValue)
+    const score = props.points.length !== 0 ? props.points.reduce((accumulator, currentValue) => accumulator + currentValue) : 0
 
   return (
     <div className='bg-white border-2 border-black text-black w-[90%] md:w-1/2 lg:w-1/4 flex justify-center flex-col rounded-md text-3xl'>
