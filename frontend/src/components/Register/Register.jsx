@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import "./Register.css";
 import Pattern from "../Pattern";
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import SelectAvatar from "../SelectAvatar";
 
 function Register() {
-  const idxs = [0, 1, 2, 3, 4, 5, 6, 7, 8];
   const [avatar, setAvatar] = useState(0);
-  const [isOpen, setIsOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  function getAvatar(v) {
+    setAvatar(v)
+  }
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -25,51 +26,7 @@ function Register() {
         </div>
         <div>
           <form action="">
-            <div className="flex flex-col justify-start p-1 md:p-3 rounded-md">
-              <button
-                onClick={(event) => {
-                  setIsOpen((prev) => !prev);
-                  event.preventDefault();
-                }}
-                className="justify-start flex bg-white text-black or-shadow text-lg px-2 py-0.5 rounded-md border-2 border-slate-700 border-dashed active:border-solid"
-              >
-                <img
-                  className="size-14 rounded-full overflow-hidden"
-                  src={`avatars/${avatar}.png`}
-                  alt="Avatar"
-                />
-                <p className="my-auto mx-2">Avatar</p>
-                <div className="my-auto ml-auto">
-                  {isOpen ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
-                </div>
-              </button>
-            </div>
-            {isOpen && (
-              <div className="text-black absolute items-start p-2 w-auto bg-white/30 rounded-md grid grid-cols-3 mx-3 backdrop-blur-sm z-20">
-                {idxs.map((item) => (
-                  <div
-                    key={item}
-                    id={item}
-                    className="flex flex-col justify-between bg-white m-2 rounded-full"
-                  >
-                    <button
-                      onClick={(event) => {
-                        setAvatar(item);
-                        setIsOpen((prev) => !prev);
-                        event.preventDefault();
-                      }}
-                      className="rounded-full"
-                    >
-                      <img
-                        className="size-20 rounded-full hover:scale-110"
-                        src={`avatars/${item}.png`}
-                        alt="avatars"
-                      />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
+            <SelectAvatar avatar={avatar} getAvatar={getAvatar}/>
             <div className="flex flex-col justify-start p-1 md:p-3">
               <label
                 htmlFor="username"

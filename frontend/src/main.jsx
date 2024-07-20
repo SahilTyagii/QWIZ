@@ -8,6 +8,7 @@ import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } 
 import Login from './components/Login/Login'
 import Register from './components/Register/Register'
 import Options from './components/Options/Options'
+import Game from './components/Game/Game'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -16,6 +17,7 @@ const router = createBrowserRouter(
       <Route path='login' element={<Login />}/>
       <Route path='register' element={<Register />}/>
       <Route path='options' element={<Options />} />
+      <Route path='game' element={<Game />} />
     </Route>
   )
 )

@@ -5,6 +5,7 @@ import Fox from "../../assets/fox.png";
 import Porc from "../../assets/porc.png";
 import Pattern from "../Pattern.jsx";
 import { Link } from "react-router-dom"
+import Animal from "../Animal.jsx";
 
 function Home() {
   return (
@@ -23,16 +24,8 @@ function Home() {
           />
         </p>
       </div>
-      {/* <div className='w-full flex flex-row justify-center absolute'>
-        <img className='w-full' src={Waves} alt="waves" />
-      </div> */}
       <div className="flex md:flex-row flex-col md:justify-around flex-wrap justify-center">
-        <img
-          className="md:size-96 size-60 mx-auto hover:scale-110 ease-in-out duration-300 z-10"
-          src={Fox}
-          alt="fox"
-        />
-
+        <Animal address={Fox}/>
         <div className="flex flex-col">
           <div className="m-1">
             <Link to='/options'>
@@ -47,11 +40,7 @@ function Home() {
             </button>
           </div>
         </div>
-        <img
-          className="md:size-96 size-60 mx-auto  hover:scale-110 ease-in-out duration-300 z-10"
-          src={Porc}
-          alt="porcupine"
-        />
+        <Animal address={Porc}/>
         <Pattern />
       </div>
     </>
