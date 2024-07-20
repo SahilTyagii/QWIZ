@@ -37,7 +37,9 @@ function Question() {
     }, [time]);
 
     function onSelectAnswer(answer) {
-        setPoints((prev) => [...prev, answer===question.correct_answer])
+        setPoints((prev) => (
+            [...prev, {ques: question.question, ans: question.correct_answer, correct: answer===question.correct_answer, id:currentQuestionIndex}  ]
+        ))
         setQuestionCount((prev) => prev+1)
         setCurrentQuestionIndex((prev) => prev+1)
         setQuestion({

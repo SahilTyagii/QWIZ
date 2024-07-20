@@ -3,13 +3,15 @@ import React from 'react'
 import Points from './Points'
 
 function ScoreCard(props) {
-    const score = props.points.length !== 0 ? props.points.reduce((accumulator, currentValue) => accumulator + currentValue) : 0
+  const totalQuestions = props.points.length
+    const score = totalQuestions !== 0 ? props.points.reduce((accumulator, currentValue) => accumulator + Number(currentValue.correct), 0) : 0
+    const accuracy = totalQuestions !== 0 ? ((score / totalQuestions) * 100).toFixed(2) : 0;
 
   return (
     <div className='bg-white border-2 border-black text-black w-[90%] md:w-1/2 lg:w-1/4 flex justify-center flex-col rounded-md text-3xl'>
       <h1 className='border-b-2 border-black py-4'>You scored</h1>
       <Points points={props.points} sc={true}/>
-      <h1 className='border-t-2 border-black bg-[#8B5CF6] text-white py-4'>{score} {score === 1 ? "point" : "points"}</h1>
+      <h1 className='border-t-2 border-black bg-[#8B5CF6] text-white py-4'>{score} {score === 1 ? "point" : "points"}<br />Accuracy: {accuracy}%</h1>
     </div>
   )
 }
