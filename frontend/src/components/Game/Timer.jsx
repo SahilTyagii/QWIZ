@@ -4,7 +4,7 @@ import React from 'react'
 function Timer(props) {
   return (
     <div>
-      <div className='animate-bounce'>
+      <div className='animate-bounce mt-20'>
         <h1 className='text-9xl m-2'>⏰</h1>
         <h1 className='text-5xl m-6 text-black'>Let the countdown begin!</h1>
       </div>

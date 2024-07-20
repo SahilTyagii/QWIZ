@@ -4,9 +4,9 @@ import Points from './Points'
 import TimeUp from './TimeUp'
 
 function Question() {
-    const [points, setPoints] = useState([false, false, true, false])
+    const [points, setPoints] = useState([false, true, true, false, false, false, false, false, false, false, true, false, true, false])
     const [question, setQuestion] = useState(1)
-    const [time, setTime] = useState(5)
+    const [time, setTime] = useState(60)
     const [timeOver, setTimeOver] = useState(false)
 
     useEffect(() => {
@@ -27,7 +27,7 @@ function Question() {
         ) : (
             <>
             <QcntAndTime question = {question} time = {time}/>
-            <Points points={points}/>
+            <Points points={points} sc={false}/>
             </>
         )}
       
