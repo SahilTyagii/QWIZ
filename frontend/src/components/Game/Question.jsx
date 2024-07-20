@@ -9,7 +9,7 @@ import he from "he"
 function Question() {
     const [points, setPoints] = useState([])
     const [questionCount, setQuestionCount] = useState(1)
-    const [time, setTime] = useState(2000)
+    const [time, setTime] = useState(60)
     const [timeOver, setTimeOver] = useState(false)
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
     const [question, setQuestion] = useState({
