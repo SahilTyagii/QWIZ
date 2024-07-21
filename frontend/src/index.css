@@ -23,3 +23,23 @@
   font-weight: normal;
 }
 
+/* Custom scrollbar styles */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(236, 221, 217, 0.3); /* Light background for scrollbar track */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #dca256; /* Thumb color */
+  border-radius: 8px; /* Rounded corners */
+  border: 2px solid #ecd8d1; /* Padding around thumb */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #b5894c; /* Darker thumb color on hover */
+}
+
+

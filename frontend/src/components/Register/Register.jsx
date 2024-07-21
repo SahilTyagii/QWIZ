@@ -9,6 +9,8 @@ import SelectAvatar from "../SelectAvatar";
 function Register() {
   const [avatar, setAvatar] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
 
   function getAvatar(v) {
     setAvatar(v)
@@ -40,6 +42,11 @@ function Register() {
                 name="username"
                 id="username"
                 placeholder="Enter your username"
+                value={username}
+                onChange={(event) => {
+                  const val = event.target.value
+                  setUsername(val)
+                }}
               />
             </div>
             <div className="flex flex-col justify-start p-1 md:p-3">
@@ -56,6 +63,11 @@ function Register() {
                   name="password"
                   id="password"
                   placeholder="Enter your password"
+                  value={password}
+                  onChange={(event) => {
+                    const val = event.target.value
+                    setPassword(val)
+                  }}
                 />
                 <span
                   className="absolute right-3 text-black cursor-pointer"

@@ -1,21 +1,22 @@
+/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react'
 import QcntAndTime from './QcntAndTime'
 import Points from './Points'
 import TimeUp from './TimeUp'
 import QuestionCard from './QuestionCard'
-import SampleQuestion from '../SampleQuestion'
 import he from "he"
 
-function Question() {
+function Question(props) {
+    const Questions=props.questions
     const [points, setPoints] = useState([])
     const [questionCount, setQuestionCount] = useState(1)
     const [time, setTime] = useState(60)
     const [timeOver, setTimeOver] = useState(false)
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
     const [question, setQuestion] = useState({
-        question: he.decode(SampleQuestion[currentQuestionIndex].question),
-        correct_answer: he.decode(SampleQuestion[currentQuestionIndex].correct_answer),
-        incorrect_answers: SampleQuestion[currentQuestionIndex].incorrect_answers.map(answer => he.decode(answer))
+        question: he.decode(Questions[currentQuestionIndex].question),
+        correct_answer: he.decode(Questions[currentQuestionIndex].correct_answer),
+        incorrect_answers: Questions[currentQuestionIndex].incorrect_answers.map(answer => he.decode(answer))
     })
     const [shuffledAnswers, setShuffledAnswers] = useState([])
 
@@ -36,17 +37,20 @@ function Question() {
         }
     }, [time]);
 
+    useEffect(() => {
+        setQuestion({
+            question: he.decode(Questions[currentQuestionIndex].question),
+            correct_answer: he.decode(Questions[currentQuestionIndex].correct_answer),
+            incorrect_answers: Questions[currentQuestionIndex].incorrect_answers.map(answer => he.decode(answer))
+        })
+    }, [currentQuestionIndex])
+
     function onSelectAnswer(answer) {
         setPoints((prev) => (
             [...prev, {ques: question.question, ans: question.correct_answer, correct: answer===question.correct_answer, id:currentQuestionIndex}  ]
         ))
         setQuestionCount((prev) => prev+1)
         setCurrentQuestionIndex((prev) => prev+1)
-        setQuestion({
-            question: he.decode(SampleQuestion[currentQuestionIndex].question),
-            correct_answer: he.decode(SampleQuestion[currentQuestionIndex].correct_answer),
-            incorrect_answers: SampleQuestion[currentQuestionIndex].incorrect_answers.map(answer => he.decode(answer))
-        })
     }
 
   return (

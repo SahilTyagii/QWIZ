@@ -7,6 +7,8 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -33,6 +35,11 @@ const Login = () => {
                 name="username"
                 id="username"
                 placeholder="Enter your username"
+                value={username}
+                onChange={(event) => {
+                  const val = event.target.value
+                  setUsername(val)
+                }}
               />
             </div>
             <div className="flex flex-col justify-start p-1 md:p-3">
@@ -49,6 +56,11 @@ const Login = () => {
                   name="password"
                   id="password"
                   placeholder="Enter your password"
+                  value={password}
+                  onChange={(event) => {
+                    const val = event.target.value
+                    setPassword(val)
+                  }}
                 />
                 <span
                   className="absolute right-3 text-black cursor-pointer"
