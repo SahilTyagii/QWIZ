@@ -1,22 +1,106 @@
-import React from 'react'
-import Name from '../../assets/name.png'
-import { NavLink } from 'react-router-dom'
+import React, { useContext, useState } from "react";
+import Name from "../../assets/name.png";
+import { NavLink, Link } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
+import Person4Icon from '@mui/icons-material/Person4';
+import LeaderboardIcon from '@mui/icons-material/Leaderboard';
+import LogoutIcon from '@mui/icons-material/Logout';
+import GitHubIcon from '@mui/icons-material/GitHub';
 
-const Navbar = () => {
-  return (
-    <div>
-      <nav className='mt-2 w-auto flex justify-between mx-4 items-center px-4'>
-        <NavLink to='/'><img className='h-20' src={Name} alt="QWIZ" /></NavLink>
-        <div className='flex justify-center'>
-        <NavLink to='/login'><h1 className='text-2xl text-slate-800 py-2 px-4'>Login</h1></NavLink>
-        <NavLink to='/register'><button className='bg-red-700 rounded-full text-xl text-white py-1 px-4 btn-outline border-black border-2 hover:bg-red-900 h-12'>Register</button></NavLink>
+function Navbar() {
+    const { isAuthenticated, user, logout, loading } = useContext(AuthContext);
+    const [isOpen, setIsOpen] = useState(false);
+
+    const handleLogout = async () => {
+        await logout();
+    };
+
+    if (loading) {
+        return <div>Loading...</div>; // Or a spinner, or any loading indicator
+    }
+
+    return (
+        <div>
+            <nav className="mt-2 w-auto flex justify-between mx-4 items-center px-4">
+                <NavLink to="/">
+                    <img className="h-20" src={Name} alt="QWIZ" />
+                </NavLink>
+                {isAuthenticated && user ? (
+                    <div className="relative">
+                        <div
+                            className="rounded-full overflow-hidden bg-white hover:scale-110 ease-in-out duration-200 cursor-pointer"
+                            onClick={() => setIsOpen((prev) => !prev)}
+                        >
+                            <img
+                                className="size-16 object-cover"
+                                src={`avatars/${user.avatar}.png`}
+                                alt={user.username}
+                            />
+                        </div>
+                        {isOpen && (
+                            <div className="absolute top-16 right-2 bg-white/30 backdrop-blur-lg shadow-lg rounded-lg p-4 flex flex-col w-max">
+                                <p className="text-slate-900 text-xl pb-2 mx-2 mb-2 font-bold border-b-2 border-slate-600/30 cursor-default">
+                                    {user.username}
+                                </p>
+                                <NavLink
+                                    to="/profile"
+                                    className={({ isActive }) =>
+                                        isActive
+                                            ? "text-slate-500 m-2 font-bold text-left hover:scale-110"
+                                            : "text-slate-700 m-2 font-bold text-left hover:scale-110"
+                                    }
+                                    onClick={() => setIsOpen((prev) => !prev)}
+                                >
+                                    <p>
+                                        <Person4Icon />
+                                        Profile
+                                    </p>
+                                </NavLink>
+                                <NavLink
+                                    to="/leaderboard"
+                                    className={({ isActive }) =>
+                                        isActive
+                                            ? "text-slate-500 m-2 font-bold text-left hover:scale-110"
+                                            : "text-slate-700 m-2 font-bold text-left hover:scale-110"
+                                    }
+                                    onClick={() => setIsOpen((prev) => !prev)}
+                                >
+                                    <p>
+                                        <LeaderboardIcon />
+                                        Leaderboard
+                                    </p>
+                                </NavLink>
+                                <Link to="https://github.com/SahilTyagii">
+                                  <p className="text-slate-700 m-2 font-bold text-left hover:scale-110">
+                                    <GitHubIcon />Connect
+                                  </p>
+                                </Link>
+                                <button
+                                    className="bg-red-600 rounded-lg px-3 py-2 my-2 text-white hover:bg-red-900"
+                                    onClick={handleLogout}
+                                >
+                                    <LogoutIcon />Logout
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                ) : (
+                    <div className="flex justify-center">
+                        <NavLink to="/login">
+                            <h1 className="text-2xl text-slate-800 py-2 px-4">
+                                Login
+                            </h1>
+                        </NavLink>
+                        <NavLink to="/register">
+                            <button className="bg-red-700 rounded-full text-xl text-white py-1 px-4 border-black border-2 hover:bg-red-900 h-12">
+                                Register
+                            </button>
+                        </NavLink>
+                    </div>
+                )}
+            </nav>
         </div>
-        <div className='rounded-full overflow-hidden bg-white hover:scale-110 ease-in-out duration-200 hidden'>
-          <img className='size-16 overflow-hidden' src='avatars/0.png' alt="" />
-        </div>
-      </nav>
-    </div>
-  )
+    );
 }
 
-export default Navbar
+export default Navbar;

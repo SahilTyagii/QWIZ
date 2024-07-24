@@ -1,11 +1,32 @@
 /* eslint-disable react/prop-types */
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import Points from './Points'
+import axios from 'axios';
+import { AuthContext } from '../../context/AuthContext';
 
 function ScoreCard(props) {
   const totalQuestions = props.points.length
     const score = totalQuestions !== 0 ? props.points.reduce((accumulator, currentValue) => accumulator + Number(currentValue.correct), 0) : 0
     const accuracy = totalQuestions !== 0 ? ((score / totalQuestions) * 100).toFixed(2) : 0;
+
+    const { user } = useContext(AuthContext)
+
+    async function updateHighscore() {
+      if (score > (user.highscore || 0)) {
+        try {
+          await axios.put(`/api/users/${user._id}/highscore`, { highscore: score });
+          await axios.put(`/api/users/${user._id}/average`, { accuracy: accuracy });
+        } catch (err) {
+          console.error("Cannot update highscore: ", err);
+        }
+      }
+    }
+  
+    useEffect(() => {
+      if (user && props.points.length > 0) {
+        updateHighscore();
+      }
+    }, [score, user]);
 
   return (
     <div className='bg-white border-2 border-black text-black w-[90%] md:w-1/2 lg:w-1/4 flex justify-center flex-col rounded-md text-3xl'>

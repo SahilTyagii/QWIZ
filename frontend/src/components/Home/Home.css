@@ -8,7 +8,7 @@ body {
   .my-red-btn {
     box-shadow: 4px 14px 0 #000, -4px 14px 0 #000, 4px 7px 0 #000, -4px 7px 0 #000, 0 -4px 0 #000, 4px 0 0 #000, -4px 0 0 #000, 3px 3px 0 #000, -3px -3px 0 #000, 3px -3px 0 #000, -3px 3px 0 #000;
     transition: box-shadow 0.5s;
-    animation: bounce .5s infinite alternate;
+    animation: bounce .7s infinite alternate;
   }
   
   .my-red-btn:hover {

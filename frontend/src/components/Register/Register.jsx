@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios"
 import "./Register.css";
 import Pattern from "../Pattern";
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
@@ -11,6 +12,7 @@ function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+  const navigate = useNavigate()
 
   function getAvatar(v) {
     setAvatar(v)
@@ -20,6 +22,19 @@ function Register() {
     setShowPassword(!showPassword);
   };
 
+  async function handleRegister(e) {
+    e.preventDefault()
+    try {
+      await axios.post("/api/register", {username, password, avatar})
+      // registration succesfull redirect to login page
+      navigate("/login")
+    } catch(err) {
+      console.error("Error during registration: ", err)
+      // TODO: SHOW CANT REGISTER TO USER
+      alert("Registration failed. Please try again.")
+    }
+  }
+
   return (
     <div className="flex justify-center items-center p-12 h-full">
       <div className="bg-[#ECDDD9] flex flex-col justify-center lg:w-1/4 w-3/4 rounded-xl border-2 border-slate-700 p-1 or-shadow z-10">
@@ -27,7 +42,7 @@ function Register() {
           <h1 className="text-slate-700 text-4xl">Register</h1>
         </div>
         <div>
-          <form action="">
+          <form onSubmit={handleRegister}>
             <SelectAvatar avatar={avatar} getAvatar={getAvatar}/>
             <div className="flex flex-col justify-start p-1 md:p-3">
               <label
@@ -37,7 +52,7 @@ function Register() {
                 Username
               </label>
               <input
-                className="text-lg bg-white p-2 rounded-md border-slate-700 border-2 border-dashed focus:border-solid focus:outline-none or-shadow text-gray-700"
+                className="text-lg bg-white p-2 rounded-md border-slate-700 border-2 border-dashed focus:border-solid focus:outline-none or-shadow text-gray-700 font-mono"
                 type="text"
                 name="username"
                 id="username"
@@ -58,7 +73,7 @@ function Register() {
               </label>
               <div className="flex items-center relative">
                 <input
-                  className="text-lg bg-white p-2 rounded-md border-slate-700 border-2 border-dashed focus:border-solid focus:outline-none or-shadow text-gray-700 w-full"
+                  className="text-lg bg-white p-2 rounded-md border-slate-700 border-2 border-dashed focus:border-solid focus:outline-none or-shadow text-gray-700 w-full font-mono"
                   type={showPassword ? "text" : "password"}
                   name="password"
                   id="password"
