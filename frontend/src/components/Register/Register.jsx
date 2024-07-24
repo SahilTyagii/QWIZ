@@ -25,7 +25,7 @@ function Register() {
   async function handleRegister(e) {
     e.preventDefault()
     try {
-      await axios.post("/api/register", {username, password, avatar})
+      await axios.post("https://qwiz.up.railway.app/api/register", {username, password, avatar})
       // registration succesfull redirect to login page
       navigate("/login")
     } catch(err) {
