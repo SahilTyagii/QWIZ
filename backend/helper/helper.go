@@ -11,17 +11,33 @@ import (
 )
 
 func CreateUser(user models.User) error {
+	// Check if the username already exists
+	var existingUser models.User
+	err := config.Collection.FindOne(context.Background(), bson.M{"username": user.Username}).Decode(&existingUser)
+	if err == nil {
+		return fmt.Errorf("username already exists")
+	}
+
 	if user.ID == primitive.NilObjectID {
 		user.ID = primitive.NewObjectID()
 	}
 
-	inserted, err := config.Collection.InsertOne(context.Background(), user)
+	_, err = config.Collection.InsertOne(context.Background(), user)
 	if err != nil {
-		return fmt.Errorf("cannot create user: %w", err)
+		return fmt.Errorf("cannot create user: %v", err)
 	}
 
-	fmt.Println("Inserted 1 user in db with id:", inserted.InsertedID)
+	fmt.Println("Inserted 1 user in db with id:", user.ID)
 	return nil
+}
+
+func GetUserByUsername(username string) (models.User, error) {
+	var user models.User
+	err := config.Collection.FindOne(context.Background(), bson.M{"username": username}).Decode(&user)
+	if err != nil {
+		return user, fmt.Errorf("cannot find user: %v", err)
+	}
+	return user, nil
 }
 
 func UpdateAvatar(userId string, newAvatar int) error {
