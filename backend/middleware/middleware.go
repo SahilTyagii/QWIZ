@@ -7,13 +7,14 @@ import (
 
 	"github.com/SahilTyagii/qwiz-backend/controllers" // Import the controllers package to use the Claims struct
 	"github.com/golang-jwt/jwt"
+	"github.com/gorilla/context"
 	"github.com/joho/godotenv"
 )
 
 func AuthMiddleware(next http.Handler) http.Handler {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatalf("Error loading .env file: %v", err)
+		log.Println("Error loading env files: ", err)
 	}
 
 	jwtKey := os.Getenv("JWT_KEY")
@@ -29,10 +30,10 @@ func AuthMiddleware(next http.Handler) http.Handler {
 		}
 
 		tknStr := c.Value
-		claims := &controllers.Claims{} // Correctly initialize the claims variable
+		claims := &controllers.Claims{}
 
 		tkn, err := jwt.ParseWithClaims(tknStr, claims, func(token *jwt.Token) (interface{}, error) {
-			return []byte(jwtKey), nil // Correctly convert jwtKey to []byte
+			return []byte(jwtKey), nil
 		})
 
 		if err != nil {
@@ -48,6 +49,9 @@ func AuthMiddleware(next http.Handler) http.Handler {
 			w.WriteHeader(http.StatusUnauthorized)
 			return
 		}
+
+		// Set user claims in context
+		context.Set(r, "userClaims", claims)
 
 		next.ServeHTTP(w, r)
 	})

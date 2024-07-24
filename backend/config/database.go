@@ -21,7 +21,7 @@ func init() {
 	// Load environment variables from .env file
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatalf("Error loading .env file: %v", err)
+		log.Println("Error loading env files: ", err)
 	}
 
 	dbUserName = os.Getenv("DB_USERNAME")
@@ -38,7 +38,6 @@ func init() {
 
 	//client options
 	clientOptions := options.Client().ApplyURI(connectionString)
-	fmt.Println(connectionString)
 
 	// connect to mongodb
 	client, err := mongo.Connect(context.TODO(), clientOptions)

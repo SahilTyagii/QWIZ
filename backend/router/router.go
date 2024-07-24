@@ -14,6 +14,7 @@ func Router() *mux.Router {
 
 	protected := router.PathPrefix("/api").Subrouter()
 	protected.Use(middleware.AuthMiddleware)
+	protected.HandleFunc("/users/me", controllers.GetCurrentUser).Methods("GET")
 	router.HandleFunc("/api/users", controllers.GetAllUsers).Methods("GET")
 	protected.HandleFunc("/users/{id}", controllers.GetUserByID).Methods("GET")
 	protected.HandleFunc("/users/{id}/avatar", controllers.UpdateAvatar).Methods("PUT")

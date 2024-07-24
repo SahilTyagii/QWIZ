@@ -1,10 +1,12 @@
 package controllers
 
 import (
+	"context"
 	"encoding/json"
 	"log"
 	"net/http"
 	"os"
+	"sync"
 	"time"
 
 	"github.com/SahilTyagii/qwiz-backend/helper"
@@ -31,14 +33,38 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	}
 	user.Password = string(hashedPassword)
 
-	// Save the user in the database
-	if err := helper.CreateUser(user); err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
+	ctx, cancel := context.WithTimeout(r.Context(), 10*time.Second)
+	defer cancel()
+
+	var wg sync.WaitGroup
+	wg.Add(1)
+
+	var registerErr error
+
+	go func() {
+		defer wg.Done()
+		registerErr = helper.CreateUser(user)
+	}()
+
+	done := make(chan struct{})
+	go func() {
+		wg.Wait()
+		close(done)
+	}()
+
+	select {
+	case <-done:
+		if registerErr != nil {
+			http.Error(w, registerErr.Error(), http.StatusBadRequest)
+			return
+		}
+		w.WriteHeader(http.StatusCreated)
+		json.NewEncoder(w).Encode(user)
+
+	case <-ctx.Done():
+		http.Error(w, "Request timed out", http.StatusGatewayTimeout)
 	}
 
-	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(user)
 }
 
 type Claims struct {
@@ -49,7 +75,7 @@ type Claims struct {
 func Login(w http.ResponseWriter, r *http.Request) {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatalf("Error loading .env file: %v", err)
+		log.Println("Error loading env files: ", err)
 	}
 
 	jwtKey := os.Getenv("JWT_KEY")
@@ -66,38 +92,60 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user, err := helper.GetUserByUsername(creds.Username)
-	if err != nil {
-		http.Error(w, "Invalid username or password", http.StatusUnauthorized)
-		return
+	ctx, cancel := context.WithTimeout(r.Context(), 10*time.Second)
+	defer cancel()
+
+	var wg sync.WaitGroup
+	wg.Add(1)
+
+	var user models.User
+	var fetchErr error
+	go func() {
+		defer wg.Done()
+		user, fetchErr = helper.GetUserByUsername(creds.Username)
+	}()
+
+	done := make(chan struct{})
+	go func() {
+		wg.Wait()
+		close(done)
+	}()
+
+	select {
+	case <-done:
+		if fetchErr != nil {
+			http.Error(w, "Internal server error: "+fetchErr.Error(), http.StatusInternalServerError)
+			return
+		}
+		if user.Username == "" || bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(creds.Password)) != nil {
+			http.Error(w, "Invalid username or password", http.StatusUnauthorized)
+			return
+		}
+
+		expirationTime := time.Now().Add(24 * time.Hour)
+		claims := &Claims{
+			Username: user.Username,
+			StandardClaims: jwt.StandardClaims{
+				ExpiresAt: expirationTime.Unix(),
+			},
+		}
+
+		token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+		tokenString, err := token.SignedString([]byte(jwtKey)) // Ensure jwtKey is a byte slice
+		if err != nil {
+			http.Error(w, "Error generating token", http.StatusInternalServerError)
+			log.Printf("Error signing token: %v\n", err) // Log error for debugging
+			return
+		}
+
+		http.SetCookie(w, &http.Cookie{
+			Name:    "token",
+			Value:   tokenString,
+			Expires: expirationTime,
+		})
+
+		json.NewEncoder(w).Encode(map[string]string{"token": tokenString})
+	case <-ctx.Done():
+		http.Error(w, "Request timed out", http.StatusGatewayTimeout)
 	}
-
-	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(creds.Password)); err != nil {
-		http.Error(w, "Invalid username or password", http.StatusUnauthorized)
-		return
-	}
-
-	expirationTime := time.Now().Add(24 * time.Hour)
-	claims := &Claims{
-		Username: user.Username,
-		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: expirationTime.Unix(),
-		},
-	}
-
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	tokenString, err := token.SignedString([]byte(jwtKey)) // Ensure jwtKey is a byte slice
-	if err != nil {
-		http.Error(w, "Error generating token", http.StatusInternalServerError)
-		log.Printf("Error signing token: %v\n", err) // Log error for debugging
-		return
-	}
-
-	http.SetCookie(w, &http.Cookie{
-		Name:    "token",
-		Value:   tokenString,
-		Expires: expirationTime,
-	})
-
-	json.NewEncoder(w).Encode(map[string]string{"token": tokenString})
 }

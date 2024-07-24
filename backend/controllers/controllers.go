@@ -6,6 +6,7 @@ import (
 
 	"github.com/SahilTyagii/qwiz-backend/helper"
 	"github.com/SahilTyagii/qwiz-backend/models"
+	"github.com/gorilla/context"
 	"github.com/gorilla/mux"
 )
 
@@ -154,4 +155,22 @@ func DeleteAllUsers(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	json.NewEncoder(w).Encode(map[string]int64{"deleted_count": deleteCount})
+}
+
+func GetCurrentUser(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	// extract user info from the context
+	userClaims := context.Get(r, "userClaims").(*Claims)
+	username := userClaims.Username
+
+	//fetch regarding info from db
+	user, err := helper.GetUserByUsername(username)
+	if err != nil {
+		http.Error(w, "User not found", http.StatusNotFound)
+		return
+	}
+
+	// return user information
+	json.NewEncoder(w).Encode(user)
 }
