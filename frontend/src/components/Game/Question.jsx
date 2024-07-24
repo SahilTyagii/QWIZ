@@ -38,11 +38,15 @@ function Question(props) {
     }, [time]);
 
     useEffect(() => {
-        setQuestion({
-            question: he.decode(Questions[currentQuestionIndex].question),
-            correct_answer: he.decode(Questions[currentQuestionIndex].correct_answer),
-            incorrect_answers: Questions[currentQuestionIndex].incorrect_answers.map(answer => he.decode(answer))
-        })
+        if (currentQuestionIndex < Questions.length) {
+            setQuestion({
+                question: he.decode(Questions[currentQuestionIndex].question),
+                correct_answer: he.decode(Questions[currentQuestionIndex].correct_answer),
+                incorrect_answers: Questions[currentQuestionIndex].incorrect_answers.map(answer => he.decode(answer))
+            })
+        } else {
+            setTimeOver(true)
+        }
     }, [currentQuestionIndex])
 
     function onSelectAnswer(answer) {

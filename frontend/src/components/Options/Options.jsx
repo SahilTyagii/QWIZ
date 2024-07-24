@@ -15,7 +15,7 @@ function Options() {
 
   useEffect(() => {
     const diff = settings.difficulty === "Any Difficulty" ? "" : `&difficulty=${settings.difficulty}`
-    setQuestionURL(`https://opentdb.com/api.php?amount=50&category=${settings.category.id}${diff}`)
+    setQuestionURL(`https://opentdb.com/api.php?amount=30&category=${settings.category.id}${diff}`)
   }, [settings])
 
   const handleStartGame = (event) => {
