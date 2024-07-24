@@ -14,7 +14,7 @@ export function AuthProvider({ children }) {
             try {
                 const token = localStorage.getItem('token');
                 if (token) {
-                    const response = await axios.get('/api/users/me', {
+                    const response = await axios.get('https://qwiz.up.railway.app/api/users/me', {
                         headers: { Authorization: `Bearer ${token}` }
                     });
                     setUser(response.data);
@@ -36,7 +36,7 @@ export function AuthProvider({ children }) {
         localStorage.setItem('token', token);
         setIsAuthenticated(true);
         setLoading(true); // Start loading to handle user state update
-        axios.get('/api/users/me', { headers: { Authorization: `Bearer ${token}` } })
+        axios.get('https://qwiz.up.railway.app/api/users/me', { headers: { Authorization: `Bearer ${token}` } })
             .then(response => {
                 setUser(response.data);
             })
