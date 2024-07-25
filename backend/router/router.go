@@ -20,7 +20,7 @@ func Router() *mux.Router {
 	protected.HandleFunc("/users/{id}/avatar", controllers.UpdateAvatar).Methods("PUT")
 	protected.HandleFunc("/users/{id}/username", controllers.UpdateUsername).Methods("PUT")
 	protected.HandleFunc("/users/{id}/highscore", controllers.UpdateHighscore).Methods("PUT")
-	protected.HandleFunc("/users/{id}/average", controllers.UpdateAverage).Methods("PUT")
+	protected.HandleFunc("/users/{id}/accuracy", controllers.UpdateAccuracy).Methods("PUT")
 	protected.HandleFunc("/users", controllers.DeleteAllUsers).Methods("DELETE")
 	protected.HandleFunc("/users/{id}", controllers.DeleteUser).Methods("DELETE")
 

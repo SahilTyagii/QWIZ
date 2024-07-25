@@ -113,24 +113,24 @@ func UpdateHighscore(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(map[string]string{"status": "highscore updated"})
 }
 
-func UpdateAverage(w http.ResponseWriter, r *http.Request) {
+func UpdateAccuracy(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Allow-Control-Allow-Methods", "PUT")
 
 	params := mux.Vars(r)
-	var averageData struct {
-		Average float64 `json:"average"`
+	var accuracyData struct {
+		Accuracy float64 `json:"accuracy"`
 	}
-	if err := json.NewDecoder(r.Body).Decode(&averageData); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&accuracyData); err != nil {
 		respondWithError(w, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
 
-	if err := helper.UpdateAverage(params["id"], averageData.Average); err != nil {
+	if err := helper.UpdateAccuracy(params["id"], accuracyData.Accuracy); err != nil {
 		respondWithError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
-	json.NewEncoder(w).Encode(map[string]string{"status": "average updated"})
+	json.NewEncoder(w).Encode(map[string]string{"status": "accuracy updated"})
 }
 
 func DeleteUser(w http.ResponseWriter, r *http.Request) {

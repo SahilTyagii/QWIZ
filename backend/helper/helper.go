@@ -91,20 +91,20 @@ func UpdateHighscore(userId string, newHighscore int) error {
 	return nil
 }
 
-func UpdateAverage(userId string, newAverage float64) error {
+func UpdateAccuracy(userId string, newAverage float64) error {
 	id, err := primitive.ObjectIDFromHex(userId)
 	if err != nil {
 		return fmt.Errorf("invalid user ID: %w", err)
 	}
 
 	filter := bson.M{"_id": id}
-	update := bson.M{"$set": bson.M{"average": newAverage}}
+	update := bson.M{"$set": bson.M{"accuracy": newAverage}}
 	result, err := config.Collection.UpdateOne(context.Background(), filter, update)
 	if err != nil {
-		return fmt.Errorf("cannot update average: %w", err)
+		return fmt.Errorf("cannot update accuracy: %w", err)
 	}
 
-	fmt.Println("Changed average:", result.ModifiedCount)
+	fmt.Println("Changed accuracy:", result.ModifiedCount)
 	return nil
 }
 

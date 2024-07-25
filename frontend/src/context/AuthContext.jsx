@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
+const apiUrl = import.meta.env.VITE_API_URL
 
 export const AuthContext = createContext();
 
@@ -14,7 +15,7 @@ export function AuthProvider({ children }) {
             try {
                 const token = localStorage.getItem('token');
                 if (token) {
-                    const response = await axios.get('https://qwiz.up.railway.app/api/users/me', {
+                    const response = await axios.get(`${apiUrl}/api/users/me`, {
                         headers: { Authorization: `Bearer ${token}` }
                     });
                     setUser(response.data);
@@ -35,8 +36,8 @@ export function AuthProvider({ children }) {
     const login = (token) => {
         localStorage.setItem('token', token);
         setIsAuthenticated(true);
-        setLoading(true); // Start loading to handle user state update
-        axios.get('https://qwiz.up.railway.app/api/users/me', { headers: { Authorization: `Bearer ${token}` } })
+        setLoading(true);
+        axios.get(`${apiUrl}/api/users/me`, { headers: { Authorization: `Bearer ${token}` } })
             .then(response => {
                 setUser(response.data);
             })
@@ -52,11 +53,11 @@ export function AuthProvider({ children }) {
         localStorage.removeItem('token');
         setIsAuthenticated(false);
         setUser(null);
-        setLoading(false); // Set loading false after logout
+        setLoading(false);
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, user, loading, login, logout }}>
+        <AuthContext.Provider value={{ isAuthenticated, user, loading, login, logout, setUser }}>
             {children}
         </AuthContext.Provider>
     );

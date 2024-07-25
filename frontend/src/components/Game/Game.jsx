@@ -9,7 +9,7 @@ function Game() {
   const [searchParams] = useSearchParams();
   const questionURL = searchParams.get('questionURL');
   const [questions, setQuestions] = useState([]);
-
+  const [isLoading, setIsLoading] = useState(true);
   const [showQuestion, setShowQuestion] = useState(false);
   const [remainingTime, setRemainingTime] = useState(3);
 
@@ -20,6 +20,7 @@ function Game() {
       const finalURL = `${url}&token=${token}`;
       const response = await axios.get(finalURL);
       setQuestions(response.data.results);
+      setIsLoading(false)
       console.log(`URL: ${finalURL}`);
       console.log(`Token: ${token}`);
       console.log("response: ", response.data.results); // Log the fetched questions
@@ -50,11 +51,16 @@ function Game() {
 
   return (
     <div>
-      {!showQuestion ? (
-        <Timer remainingTime={remainingTime} />
+      {isLoading ? (
+        <div>Loading...</div>
       ) : (
-        <Question questions={questions} />
+        !showQuestion ? (
+          <Timer remainingTime={remainingTime} />
+        ) : (
+          <Question questions={questions} />
+        )
       )}
+      
       <Pattern />
     </div>
   );

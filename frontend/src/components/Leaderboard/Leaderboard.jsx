@@ -1,14 +1,19 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import Pattern from '../Pattern';
+const apiUrl = import.meta.env.VITE_API_URL
 
 function Leaderboard() {
-    const [users, setUsers] = useState([]); // Initialize as an empty array
+    const [users, setUsers] = useState([]);
 
     async function getAllUsers() {
         try {
-            const response = await axios.get("/api/users");
+            const token = localStorage.getItem('token');
+            const response = await axios.get(`${apiUrl}/api/users`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
             setUsers(response.data);
+            setUsers((prev) => prev.sort((a, b) => b.highscore - a.highscore))
         } catch (err) {
             console.error("Error fetching users:", err);
         }

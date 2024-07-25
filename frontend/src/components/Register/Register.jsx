@@ -6,6 +6,7 @@ import Pattern from "../Pattern";
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import SelectAvatar from "../SelectAvatar";
+const apiUrl = import.meta.env.VITE_API_URL
 
 function Register() {
   const [avatar, setAvatar] = useState(0);
@@ -25,7 +26,7 @@ function Register() {
   async function handleRegister(e) {
     e.preventDefault()
     try {
-      await axios.post("https://qwiz.up.railway.app/api/register", {username, password, avatar})
+      await axios.post(`${apiUrl}/api/register`, {username, password, avatar})
       // registration succesfull redirect to login page
       navigate("/login")
     } catch(err) {

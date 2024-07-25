@@ -6,6 +6,7 @@ import Pattern from "../Pattern";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { AuthContext } from "../../context/AuthContext";
+const apiUrl = import.meta.env.VITE_API_URL
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -21,7 +22,7 @@ const Login = () => {
     async function handleLogin(e) {
         e.preventDefault();
         try {
-            const response = await axios.post("/api/login", {
+            const response = await axios.post(`${apiUrl}/api/login`, {
                 username,
                 password,
             });

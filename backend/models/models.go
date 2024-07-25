@@ -7,6 +7,6 @@ type User struct {
 	Username  string             `json:"username,omitempty"`
 	Password  string             `json:"password,omitempty"`
 	Avatar    int                `json:"avatar,omitempty"`
-	Highscore int                `json:"highscore,omitempty"`
-	Accuracy  float64            `json:"accuracy,omitempty"`
+	Highscore int                `json:"highscore"`
+	Accuracy  float64            `json:"accuracy"`
 }
