@@ -23,7 +23,7 @@ function Game() {
       setIsLoading(false)
       console.log(`URL: ${finalURL}`);
       console.log(`Token: ${token}`);
-      console.log("response: ", response.data.results); // Log the fetched questions
+      console.log("response: ", response.data.results);
     } catch (error) {
       console.error('Error fetching questions:', error);
     }
@@ -36,7 +36,7 @@ function Game() {
     } else {
       console.error('No questionURL provided');
     }
-  }, [questionURL]); // Ensure useEffect runs only once
+  }, [questionURL]);
 
   useEffect(() => {
     if (remainingTime > 0) {

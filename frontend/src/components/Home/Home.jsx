@@ -35,9 +35,11 @@ function Home() {
             </Link>
           </div>
           <div className="m-1">
+          <Link to='/lobby'>
             <button className="bg-black rounded-full sm:px-20 px-12 py-2 md:px-36 md:py-3 text-3xl text-white my-black-btn z-10">
               Multiplayer
             </button>
+            </Link>
           </div>
         </div>
         <Animal address={Porc}/>

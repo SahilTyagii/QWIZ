@@ -13,6 +13,8 @@ import Game from './components/Game/Game'
 import ProtectedRoute from './components/ProtectedRoute'
 import Profile from './components/Profile/Profile'
 import Leaderboard from './components/Leaderboard/Leaderboard'
+import Lobby from './components/Multiplayer/Lobby'
+import Room from './components/Multiplayer/Room.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -24,6 +26,8 @@ const router = createBrowserRouter(
       <Route element={<ProtectedRoute />}>
         <Route path='options' element={<Options />}/>
         <Route path='game' element={<Game />}/>
+        <Route path='lobby' element={<Lobby />} />
+        <Route path='room' element={<Room />} />
         <Route path='profile' element={<Profile />}/>
       </Route>
     </Route>

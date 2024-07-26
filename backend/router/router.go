@@ -3,6 +3,7 @@ package router
 import (
 	"github.com/SahilTyagii/qwiz-backend/controllers"
 	"github.com/SahilTyagii/qwiz-backend/middleware"
+	"github.com/SahilTyagii/qwiz-backend/multiplayer"
 	"github.com/gorilla/mux"
 )
 
@@ -23,6 +24,9 @@ func Router() *mux.Router {
 	protected.HandleFunc("/users/{id}/accuracy", controllers.UpdateAccuracy).Methods("PUT")
 	protected.HandleFunc("/users", controllers.DeleteAllUsers).Methods("DELETE")
 	protected.HandleFunc("/users/{id}", controllers.DeleteUser).Methods("DELETE")
+
+	router.HandleFunc("/ws/{roomID}/{username}", multiplayer.ServeWs)
+	router.HandleFunc("/create-room", multiplayer.CreateRoom).Methods("POST")
 
 	return router
 }

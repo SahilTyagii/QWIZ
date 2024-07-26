@@ -10,3 +10,17 @@ type User struct {
 	Highscore int                `json:"highscore"`
 	Accuracy  float64            `json:"accuracy"`
 }
+
+type TriviaResponse struct {
+	ResponseCode int        `json:"response_code"`
+	Results      []Question `json:"results"`
+}
+
+type Question struct {
+	Category         string   `json:"category"`
+	Type             string   `json:"type"`
+	Difficulty       string   `json:"difficulty"`
+	Question         string   `json:"question"`
+	CorrectAnswer    string   `json:"correct_answer"`
+	IncorrectAnswers []string `json:"incorrect_answers"`
+}
