@@ -7,17 +7,19 @@ import (
 	"io"
 	"net/http"
 	"sync"
+	"time"
 
 	"github.com/SahilTyagii/qwiz-backend/models"
 )
 
 type Room struct {
-	ID        string
-	Clients   map[*Client]bool
-	Questions []models.Question
-	Started   bool
-	Host      *Client
-	Mutex     sync.Mutex
+	ID           string
+	Clients      map[*Client]bool
+	Questions    []models.Question
+	Started      bool
+	Host         *Client
+	CreationTime time.Time
+	Mutex        sync.Mutex
 }
 
 func GetRoom(roomID string) *Room {
@@ -26,11 +28,13 @@ func GetRoom(roomID string) *Room {
 	room, exists := hub.Rooms[roomID]
 	if !exists {
 		room = &Room{
-			ID:      roomID,
-			Clients: make(map[*Client]bool),
+			ID:           roomID,
+			Clients:      make(map[*Client]bool),
+			CreationTime: time.Now(),
 		}
 		hub.Rooms[roomID] = room
 	}
+	fmt.Println("Room retrieved or created:", roomID)
 	return room
 }
 
@@ -80,6 +84,21 @@ func fetchQuestions(category string, difficulty string) ([]models.Question, erro
 	return triviaResponse.Results, nil
 }
 
+func (r *Room) GetAllClientsData() []map[string]string {
+	r.Mutex.Lock()
+	defer r.Mutex.Unlock()
+
+	var clientsData []map[string]string
+	for client := range r.Clients {
+		clientData := map[string]string{
+			"username": client.Username,
+			"avatar":   client.Avatar,
+		}
+		clientsData = append(clientsData, clientData)
+	}
+	return clientsData
+}
+
 func idGenerator(max int) string {
 	b := make([]byte, max)
 	n, err := io.ReadAtLeast(rand.Reader, b, max)
@@ -93,3 +112,42 @@ func idGenerator(max int) string {
 }
 
 var table = [...]byte{'1', '2', '3', '4', '5', '6', '7', '8', '9', '0'}
+
+func MonitorRoomExpiration(rooms map[string]*Room, expirationDuration time.Duration) {
+	ticker := time.NewTicker(1 * time.Minute)
+	defer ticker.Stop()
+
+	for {
+		select {
+		case <-ticker.C:
+			now := time.Now()
+			hub.Mutex.Lock()
+			for roomID, room := range rooms {
+				room.Mutex.Lock()
+				age := now.Sub(room.CreationTime)
+				room.Mutex.Unlock()
+
+				if age > expirationDuration {
+					deleteRoom(roomID)
+				}
+			}
+			hub.Mutex.Unlock()
+		}
+	}
+}
+
+func deleteRoom(roomID string) {
+	hub.Mutex.Lock()
+	defer hub.Mutex.Unlock()
+
+	room, exists := hub.Rooms[roomID]
+	if !exists {
+		return
+	}
+
+	fmt.Println("Deleting room: ", roomID)
+	for client := range room.Clients {
+		client.Conn.Close()
+	}
+	delete(hub.Rooms, roomID)
+}

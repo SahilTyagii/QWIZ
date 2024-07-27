@@ -25,7 +25,7 @@ func Router() *mux.Router {
 	protected.HandleFunc("/users", controllers.DeleteAllUsers).Methods("DELETE")
 	protected.HandleFunc("/users/{id}", controllers.DeleteUser).Methods("DELETE")
 
-	router.HandleFunc("/ws/{roomID}/{username}", multiplayer.ServeWs)
+	router.HandleFunc("/ws/{roomID}/{username}/{avatar}", multiplayer.ServeWs)
 	router.HandleFunc("/create-room", multiplayer.CreateRoom).Methods("POST")
 
 	return router

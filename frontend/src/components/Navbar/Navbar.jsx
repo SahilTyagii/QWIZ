@@ -38,7 +38,7 @@ function Navbar() {
                             />
                         </div>
                         {isOpen && (
-                            <div className="absolute top-16 right-2 bg-white/30 backdrop-blur-lg shadow-lg rounded-lg p-4 flex flex-col w-max">
+                            <div className="absolute top-16 right-2 bg-white/30 backdrop-blur-lg shadow-lg rounded-lg p-4 flex flex-col w-max z-40">
                                 <p className="text-slate-900 text-xl pb-2 mx-2 mb-2 font-bold border-b-2 border-slate-600/30 cursor-default">
                                     {user.username}
                                 </p>

@@ -11,6 +11,7 @@ type Client struct {
 	Conn     *websocket.Conn
 	Send     chan []byte
 	Username string
+	Avatar   string
 	State    *PlayerState
 	Hub      *Hub
 	Room     *Room
@@ -33,6 +34,7 @@ func (c *Client) ReadPump() {
 			break
 		}
 		// Handle message, update player state, etc
+		fmt.Println("Received message from client:", string(message))
 		var msg map[string]interface{}
 		if err := json.Unmarshal(message, &msg); err != nil {
 			fmt.Println("Error unmarshalling message:", err)
@@ -105,11 +107,19 @@ func (c *Client) WritePump() {
 	defer func() {
 		c.Conn.Close()
 	}()
-	for message := range c.Send {
-		err := c.Conn.WriteMessage(websocket.TextMessage, message)
-		if err != nil {
-			fmt.Println("Error writing message:", err)
-			break
+	for {
+		select {
+		case message, ok := <-c.Send:
+			if !ok {
+				c.Conn.WriteMessage(websocket.CloseMessage, []byte{})
+				return
+			}
+			fmt.Println("Writing message to WebSocket:", string(message))
+			err := c.Conn.WriteMessage(websocket.TextMessage, message)
+			if err != nil {
+				fmt.Println("Error writing message:", err)
+				return
+			}
 		}
 	}
 }
