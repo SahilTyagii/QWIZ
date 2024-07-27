@@ -70,6 +70,10 @@ func fetchQuestions(category string, difficulty string) ([]models.Question, erro
 		Token           string `json:"token"`
 	}
 
+	if err := json.NewDecoder(tokenResp.Body).Decode(&token); err != nil {
+		return nil, err
+	}
+
 	url := fmt.Sprintf("https://opentdb.com/api.php?amount=30&category=%s&difficulty=%s&token=%s", category, difficulty, token.Token)
 	resp, err := http.Get(url)
 	if err != nil {

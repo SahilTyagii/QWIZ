@@ -53,34 +53,52 @@ func (c *Client) ReadPump() {
 }
 
 func (c *Client) handleStartGame() {
-	c.Room.Mutex.Lock()
-	defer c.Room.Mutex.Unlock()
 
+	fmt.Println("Host:", c.Room.Host.Username)
 	if c.Room.Host == c {
+		fmt.Println("Client is host, starting game")
 		if len(c.Room.Questions) > 0 {
-			initialQuestion := c.Room.Questions[0]
-			c.broadcastState("initial_question", initialQuestion)
+			c.Room.Mutex.Lock()
+			// initialQuestion := c.Room.Questions[0]
+			questions := c.Room.Questions
+			c.Room.Mutex.Unlock()
+			fmt.Println("Broadcasting initial question:")
+			c.broadcastState("initial_question", questions)
+		} else {
+			fmt.Println("No questions available to start the game")
 		}
+	} else {
+		fmt.Println("Client is not host, cannot start game")
 	}
 }
 
 func (c *Client) broadcastState(action string, data interface{}) {
-	c.Room.Mutex.Lock()
-	defer c.Room.Mutex.Unlock()
-
 	response := map[string]interface{}{
 		"action": action,
-	}
-	if data != nil {
-		response["data"] = data
+		"data":   data,
 	}
 	respJSON, err := json.Marshal(response)
 	if err != nil {
 		fmt.Println("Error marshalling json:", err)
+		return
 	}
+	// fmt.Println("Broadcasting JSON:", string(respJSON))
 
+	// Lock only for reading the clients
+	c.Room.Mutex.Lock()
+	clients := make([]*Client, 0, len(c.Room.Clients))
 	for client := range c.Room.Clients {
-		client.Send <- respJSON
+		clients = append(clients, client)
+	}
+	c.Room.Mutex.Unlock()
+
+	for _, client := range clients {
+		select {
+		case client.Send <- respJSON:
+			fmt.Println("Sent message to client:", client.Username)
+		default:
+			fmt.Println("Failed to send message to client:", client.Username)
+		}
 	}
 }
 
@@ -114,7 +132,7 @@ func (c *Client) WritePump() {
 				c.Conn.WriteMessage(websocket.CloseMessage, []byte{})
 				return
 			}
-			fmt.Println("Writing message to WebSocket:", string(message))
+			// fmt.Println("Writing message to WebSocket:", string(message))
 			err := c.Conn.WriteMessage(websocket.TextMessage, message)
 			if err != nil {
 				fmt.Println("Error writing message:", err)

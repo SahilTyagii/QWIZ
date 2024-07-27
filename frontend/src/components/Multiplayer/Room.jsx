@@ -3,6 +3,8 @@ import { useSearchParams } from 'react-router-dom';
 import useWebSocket from 'react-use-websocket'
 import { AuthContext } from '../../context/AuthContext'
 import Pattern from '../Pattern';
+import ThreeSec from './ThreeSec';
+import MpQuestion from './MpQuestion';
 
 
 const socketURL = import.meta.env.VITE_SOCKET_URL;
@@ -14,6 +16,9 @@ function Room() {
     const [isHost, setIsHost] = useState(false);
     const [host, setHost] = useState("")
     const [gameStarted, setGameStarted] = useState(false)
+    const [questions, setQuestions] = useState([])
+    const [remainingTime, setRemainingTime] = useState(3)
+    const [showQuestion, setShowQuestion] = useState(false)
     const { user } = useContext(AuthContext)
     const roomIDRef = useRef(null)
 
@@ -48,10 +53,11 @@ function Room() {
                     break
                 case "set_host":
                     setHost(message.data.host)
-                    setIsHost(host === user.username)
+                    setIsHost(message.data.host === user.username)
                     break
-                case "game_started":
-                    // Redirect to game
+                case "initial_question":
+                    setGameStarted(true)
+                    setQuestions(message.data)
                     break;
                 default:
                     break
@@ -61,16 +67,46 @@ function Room() {
 
     function handleStartGame() {
         sendMessage(JSON.stringify({action: "start_game"}))
+        console.log('Message sent: {action: "start_game"}')
+    }
+
+    useEffect(() => {
+        if (gameStarted) {
+            const cleanup = startThreeSec();
+            return cleanup;
+        }
+    }, [gameStarted]);
+    
+    function startThreeSec() {
+        const intervalId = setInterval(() => {
+            setRemainingTime(prevTime => {
+                if (prevTime <= 0) {
+                    clearInterval(intervalId);
+                    setShowQuestion(true);
+                    return 0;
+                }
+                return prevTime - 1;
+            });
+        }, 1000);
+    
+        return () => clearInterval(intervalId);
     }
 
   return (
-    <div className='flex justify-center items-center md:p-12 p-4'>
+    <div>
         {
             gameStarted ? (
                 <div>
-
+                    {showQuestion ? (
+                        <MpQuestion questions={questions}/>
+                    ) : (
+                        <ThreeSec remainingTime = {remainingTime} />
+                    )}
                 </div>
             ) : (
+                <div className='flex justify-center items-center md:p-12 p-4'>
+
+                
                 <div className='bg-[#ECDDD9] flex flex-col justify-center lg:w-1/4 w-[98%] rounded-xl border-2 border-slate-700 p-1 or-shadow z-10'>
                     <div className="m-6">
                         <h1 className="text-slate-700 text-4xl">Lobby</h1>
@@ -111,7 +147,7 @@ function Room() {
                             
                         )
                     }
-                    
+                    </div>
                 </div>
             )
         }

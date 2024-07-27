@@ -1,0 +1,25 @@
+.relative:hover .tooltip {
+    display: block;
+  }
+  
+  .tooltip {
+    display: none; /* Hidden by default */
+    z-index: 10; /* Ensure it is on top */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  }
+  
+  .relative {
+    position: relative; /* Ensures tooltip is positioned relative to the parent div */
+  }
+  
+  .tooltip::before {
+    content: '';
+    position: absolute;
+    top: -5px; /* Position it just above the tooltip */
+    left: 50%; /* Center it horizontally */
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent white transparent; /* Triangle arrow pointing downwards */
+  }
+  
