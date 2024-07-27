@@ -13,7 +13,7 @@ function Lobby() {
     }
 
   return (
-    <div className='flex justify-center items-center p-12'>
+    <div className='flex justify-center items-center md:p-12 p-4'>
         {
             choosed ? (
                 <>
@@ -26,7 +26,7 @@ function Lobby() {
                     }
                 </>
             ) : (
-                <div className="bg-[#ECDDD9] flex flex-col justify-center lg:w-1/4 w-3/4 rounded-xl border-2 border-slate-700 py-8 or-shadow z-10">
+                <div className="bg-[#ECDDD9] flex flex-col justify-center lg:w-1/4 w-[98%] rounded-xl border-2 border-slate-700 py-8 or-shadow z-10">
                     <div className="m-6">
                         <h1 className="text-slate-700 text-4xl">Multiplayer</h1>
                     </div>
