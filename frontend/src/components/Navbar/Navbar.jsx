@@ -24,7 +24,7 @@ function Navbar() {
 
     return (
         <div>
-            <nav className="mt-2 w-auto flex justify-between mx-4 items-center px-4">
+            <nav className="mt-2 w-auto flex justify-between mx-4 items-center px-4 pb-2">
                 <NavLink to="/">
                     <img className="h-14 md:h-20" src={Name} alt="QWIZ" />
                 </NavLink>
