@@ -64,7 +64,7 @@ function Room() {
     }
 
   return (
-    <div className='flex justify-center items-center p-12'>
+    <div className='flex justify-center items-center md:p-12 p-4'>
         {
             gameStarted ? (
                 <div>
