@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState, useRef } from 'react'
 import { useSearchParams } from 'react-router-dom';
 import useWebSocket from 'react-use-websocket'
 import { AuthContext } from '../../context/AuthContext'
+import Pattern from '../Pattern';
 
 
 const socketURL = import.meta.env.VITE_SOCKET_URL;
@@ -87,9 +88,12 @@ function Room() {
                             {
                                 players.map((player, index) => (
                                     <li key={index} className='flex m-2 text-slate-700 text-2xl p-2 border-slate-700 border-2 border-dashed rounded-md bg-white'>
-                                        <img className='size-14' src={`../../../public/avatars/${player.avatar}.png`} alt="" />
-                                        <p className='my-auto mx-auto'>
+                                        <img className='size-14' src={`avatars/${player.avatar}.png`} alt="" />
+                                        <p className='my-auto mx-auto flex'>
                                             {player.username}
+                                            {player.username === host && (
+                                                <img src="https://em-content.zobj.net/source/apple/354/crown_1f451.png" alt="host" className='size-7 ml-2'/>
+                                            )}
                                         </p>
                                         
                                     </li>
@@ -111,7 +115,7 @@ function Room() {
                 </div>
             )
         }
-      
+        <Pattern />
     </div>
   )
 }
