@@ -6,6 +6,9 @@ import Person4Icon from '@mui/icons-material/Person4';
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 import LogoutIcon from '@mui/icons-material/Logout';
 import GitHubIcon from '@mui/icons-material/GitHub';
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
+import HomeIcon from '@mui/icons-material/Home';
 
 function Navbar() {
     const { isAuthenticated, user, logout, loading } = useContext(AuthContext);
@@ -23,25 +26,47 @@ function Navbar() {
         <div>
             <nav className="mt-2 w-auto flex justify-between mx-4 items-center px-4">
                 <NavLink to="/">
-                    <img className="h-20" src={Name} alt="QWIZ" />
+                    <img className="h-14 md:h-20" src={Name} alt="QWIZ" />
                 </NavLink>
                 {isAuthenticated && user ? (
                     <div className="relative">
+                        <div className="flex items-center bg-white/30 backdrop:blur-sm md:px-4 px-1 py-2 rounded-2xl hover:scale-110 ease-in-out duration-200 cursor-pointer" onClick={() => setIsOpen((prev) => !prev)}>
+                        {
+                            isOpen ? (
+                                <ArrowDropUpIcon />
+                            ) : (
+                                <ArrowDropDownIcon />
+                            )
+                        }                        
                         <div
-                            className="rounded-full overflow-hidden bg-white hover:scale-110 ease-in-out duration-200 cursor-pointer"
-                            onClick={() => setIsOpen((prev) => !prev)}
+                            className="rounded-full overflow-hidden pl-1"
                         >
                             <img
-                                className="size-16 object-cover"
+                                className="size-12 md:size-16 object-cover"
                                 src={`avatars/${user.avatar}.png`}
                                 alt={user.username}
                             />
                         </div>
+                        </div>
                         {isOpen && (
-                            <div className="absolute top-16 right-2 bg-white/30 backdrop-blur-lg shadow-lg rounded-lg p-4 flex flex-col w-max z-40">
+                            <div className="absolute top-24 right-1 bg-white/30 backdrop-blur-lg shadow-lg rounded-lg p-4 flex flex-col w-max z-40">
                                 <p className="text-slate-900 text-xl pb-2 mx-2 mb-2 font-bold border-b-2 border-slate-600/30 cursor-default">
                                     {user.username}
                                 </p>
+                                <NavLink
+                                    to="/"
+                                    className={({ isActive }) =>
+                                        isActive
+                                            ? "text-slate-500 m-2 font-bold text-left hover:scale-110"
+                                            : "text-slate-700 m-2 font-bold text-left hover:scale-110"
+                                    }
+                                    onClick={() => setIsOpen((prev) => !prev)}
+                                >
+                                    <p>
+                                        <HomeIcon />
+                                        Home
+                                    </p>
+                                </NavLink>
                                 <NavLink
                                     to="/profile"
                                     className={({ isActive }) =>
