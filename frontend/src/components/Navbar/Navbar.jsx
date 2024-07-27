@@ -2,13 +2,14 @@ import React, { useContext, useState } from "react";
 import Name from "../../assets/name.png";
 import { NavLink, Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-import Person4Icon from '@mui/icons-material/Person4';
-import LeaderboardIcon from '@mui/icons-material/Leaderboard';
-import LogoutIcon from '@mui/icons-material/Logout';
+import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
+import RestartAltRoundedIcon from '@mui/icons-material/RestartAltRounded';
+import LeaderboardRoundedIcon from '@mui/icons-material/LeaderboardRounded';
+import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
-import HomeIcon from '@mui/icons-material/Home';
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 
 function Navbar() {
     const { isAuthenticated, user, logout, loading } = useContext(AuthContext);
@@ -19,7 +20,7 @@ function Navbar() {
     };
 
     if (loading) {
-        return <div>Loading...</div>; // Or a spinner, or any loading indicator
+        return <div className="animate-spin"><RestartAltRoundedIcon /></div>; // Or a spinner, or any loading indicator
     }
 
     return (
@@ -63,7 +64,7 @@ function Navbar() {
                                     onClick={() => setIsOpen((prev) => !prev)}
                                 >
                                     <p>
-                                        <HomeIcon />
+                                        <HomeRoundedIcon />
                                         Home
                                     </p>
                                 </NavLink>
@@ -77,7 +78,7 @@ function Navbar() {
                                     onClick={() => setIsOpen((prev) => !prev)}
                                 >
                                     <p>
-                                        <Person4Icon />
+                                        <PersonRoundedIcon />
                                         Profile
                                     </p>
                                 </NavLink>
@@ -91,7 +92,7 @@ function Navbar() {
                                     onClick={() => setIsOpen((prev) => !prev)}
                                 >
                                     <p>
-                                        <LeaderboardIcon />
+                                        <LeaderboardRoundedIcon />
                                         Leaderboard
                                     </p>
                                 </NavLink>
@@ -104,7 +105,7 @@ function Navbar() {
                                     className="bg-red-600 rounded-lg px-3 py-2 my-2 text-white hover:bg-red-900"
                                     onClick={handleLogout}
                                 >
-                                    <LogoutIcon />Logout
+                                    <LogoutRoundedIcon />Logout
                                 </button>
                             </div>
                         )}
