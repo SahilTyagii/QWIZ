@@ -20,7 +20,7 @@ function MpTimeUp(props) {
             <img className='' src="https://em-content.zobj.net/source/apple/391/skull_1f480.png" alt="Skull" />
         </div>
         <div>
-            <h1 className='text-black text-[3rem]'>
+            <h1 className='text-black text-[3rem] cursor-default'>
                 {
                     isWinner ? "You won!" : "Game over!"
                 }

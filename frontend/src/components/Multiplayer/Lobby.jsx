@@ -28,7 +28,7 @@ function Lobby() {
             ) : (
                 <div className="bg-[#ECDDD9] flex flex-col justify-center lg:w-1/4 w-[98%] rounded-xl border-2 border-slate-700 py-8 or-shadow z-10">
                     <div className="m-6">
-                        <h1 className="text-slate-700 text-4xl">Multiplayer</h1>
+                        <h1 className="text-slate-700 text-4xl cursor-default">Multiplayer</h1>
                     </div>
                     <div className="my-2 h-12 mx-1 lg:mx-3">
                         <button

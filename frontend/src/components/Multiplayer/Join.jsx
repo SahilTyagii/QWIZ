@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css';
 import Loader from "../Loader/Loader";
 
 function Join(props) {
@@ -8,17 +10,19 @@ function Join(props) {
     const navigate = useNavigate()
 
     const validateRoomID = (roomID) => {
-        const re = /^[0-9]/
+        const re = /^[0-9]{6,6}/
         return re.test(roomID)
     }
     
     async function handleJoinGame(event) {
         event.preventDefault()
         if (!roomID) {
-            alert("Please enter RoomId")
+            // alert("Please enter RoomId")
+            toast.error("Please enter RoomID")    
+            return
         }
         if (!validateRoomID(roomID)) {
-            alert("Please enter valid RoomId")
+            toast.error("Please enter valid RoomID")    
             return
         }
         if (roomID) {
@@ -41,7 +45,7 @@ function Join(props) {
     <div className="bg-[#ECDDD9] flex flex-col justify-center lg:w-1/4 w-[98%] rounded-xl border-2 border-slate-700 p-1 or-shadow z-10">
         {loading && <Loader />}
         <div className="m-6">
-                <h1 className="text-slate-700 text-4xl">Join game</h1>
+                <h1 className="text-slate-700 text-4xl cursor-default">Join game</h1>
             </div>
       <div>
         <form className="flex flex-col justify-start" onSubmit={handleJoinGame}>
@@ -71,6 +75,18 @@ function Join(props) {
             props.handleClick()
         }}>Host Game</button>
       </div>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        />
     </div>
   );
 }

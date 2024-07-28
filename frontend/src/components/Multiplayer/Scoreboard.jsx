@@ -16,7 +16,7 @@ function Scoreboard(props) {
               <div key={index}>
                 {
                   (
-                    <div className='text-black flex justify-around text-xl m-2'>
+                    <div className='text-black flex justify-around text-xl m-2 cursor-default'>
                       <h1>
                         {player.player}{player.player === props.user.username && (
                           " (YOU)"

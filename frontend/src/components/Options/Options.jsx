@@ -27,7 +27,7 @@ function Options() {
     <div className="flex justify-center items-center md:p-12 p-4">
       <div className="bg-[#ECDDD9] flex flex-col justify-center lg:w-1/4 w-[98%] rounded-xl border-2 border-slate-700 p-1 or-shadow z-10">
         <div className="m-6">
-          <h1 className="text-slate-700 text-4xl">Game options</h1>
+          <h1 className="text-slate-700 text-4xl cursor-default">Game options</h1>
         </div>
         <div>
           <form onSubmit={handleStartGame}>
@@ -41,7 +41,7 @@ function Options() {
                   event.preventDefault()
                 }}
                 className={`flex justify-start bg-white text-black or-shadow text-lg px-2 py-0.5 rounded-md border-2 border-slate-700 ${categoryOpen ? "border-solid" : "border-dashed"}`}>
-                <p className="my-auto mx-2">{settings.category.name}</p>
+                <p className="my-auto mx-2 cursor-default">{settings.category.name}</p>
                 <div className="my-auto ml-auto">
                   {categoryOpen ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
                 </div>

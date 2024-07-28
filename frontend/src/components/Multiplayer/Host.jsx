@@ -45,7 +45,7 @@ function Host(props) {
         <div className="bg-[#ECDDD9] flex flex-col justify-center lg:w-1/4 w-[98%] rounded-xl border-2 border-slate-700 p-1 or-shadow z-10">
             {loading && <Loader />}
             <div className="m-6">
-                <h1 className="text-slate-700 text-4xl">Host game</h1>
+                <h1 className="text-slate-700 text-4xl cursor-default">Host game</h1>
             </div>
             <div>
                 <form onSubmit={handleHostGame}>
@@ -59,7 +59,7 @@ function Host(props) {
                                 event.preventDefault()
                             }}
                             className={`flex justify-start bg-white text-black or-shadow text-lg px-2 py-0.5 rounded-md border-2 border-slate-700 ${categoryOpen ? "border-solid" : "border-dashed"}`}>
-                            <p className="my-auto mx-2">{settings.category.name}</p>
+                            <p className="my-auto mx-2 cursor-default">{settings.category.name}</p>
                             <div className="my-auto ml-auto">
                                 {categoryOpen ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
                             </div>
@@ -103,7 +103,7 @@ function Host(props) {
                                 event.preventDefault()
                             }}
                             className={`flex justify-start bg-white text-black or-shadow text-lg px-2 py-0.5 rounded-md border-2 border-slate-700 ${difficultyOpen ? "border-solid" : "border-dashed"}`}>
-                            <p className="my-auto mx-2">{settings.difficulty}</p>
+                            <p className="my-auto mx-2 cursor-default">{settings.difficulty}</p>
                             <div className="my-auto ml-auto">
                                 {difficultyOpen ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
                             </div>

@@ -127,7 +127,7 @@ function Room() {
                 
                 <div className='bg-[#ECDDD9] flex flex-col justify-center lg:w-1/4 w-[98%] rounded-xl border-2 border-slate-700 p-1 or-shadow z-10'>
                     <div className="m-6">
-                        <h1 className="text-slate-700 text-4xl">Lobby</h1>
+                        <h1 className="text-slate-700 text-4xl cursor-default">Lobby</h1>
                     </div>
                     <div className='flex'>
                         <label htmlFor="roomID" className='text-left text-lg text-black p-2'>Room ID</label>
@@ -137,13 +137,13 @@ function Room() {
                         <button className='bg-[#DE5399] or-shadow w-full h-12 text-black text-lg hover:bg-[#883c62] border-l-2 border-slate-700 border-dashed focus:border-solid focus:outline-none p-2' onClick={copyRoomIDToClipboard}>Copy</button>
                     </div>
                     <div className='my-2'>
-                        <p className='text-black text-2xl'>Players joined</p>
+                        <p className='text-black text-2xl cursor-default'>Players joined</p>
                         <ul className='bg-white/60 flex flex-col p-2 m-2 rounded-md backdrop-blur-xl'>
                             {
                                 players.map((player, index) => (
                                     <li key={index} className='flex m-2 text-slate-700 text-2xl p-2 border-slate-700 border-2 border-dashed rounded-md bg-white'>
                                         <img className='size-14' src={`avatars/${player.avatar}.png`} alt="" />
-                                        <p className='my-auto mx-auto flex'>
+                                        <p className='my-auto mx-auto flex cursor-default'>
                                             {player.username}
                                             {player.username === host && (
                                                 <img src="https://em-content.zobj.net/source/apple/354/crown_1f451.png" alt="host" className='size-7 ml-2'/>

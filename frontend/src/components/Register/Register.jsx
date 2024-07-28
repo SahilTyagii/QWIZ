@@ -1,43 +1,70 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios"
+import axios from "axios";
 import "./Register.css";
 import Pattern from "../Pattern";
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import SelectAvatar from "../SelectAvatar";
 import Loader from "../Loader/Loader";
-const apiUrl = import.meta.env.VITE_API_URL
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+const apiUrl = import.meta.env.VITE_API_URL;
 
 function Register() {
   const [avatar, setAvatar] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
-  const [loading, setLoading] = useState(false)
-  const navigate = useNavigate()
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   function getAvatar(v) {
-    setAvatar(v)
+    setAvatar(v);
   }
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
+  const validateInput = () => {
+    const usernamePattern = /^[a-zA-Z0-9_]{3,20}$/;
+    const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{3,}$/;
+
+    if (!username) {
+      toast.error("Username is required.");
+      return false;
+    }
+    if (!usernamePattern.test(username)) {
+      toast.error("Username must be 3-20 characters long and can only contain letters, numbers, and underscores.");
+      return false;
+    }
+    if (!password) {
+      toast.error("Password is required.");
+      return false;
+    }
+    if (!passwordPattern.test(password)) {
+      toast.error("Password must be at least 3 characters long, with at least one letter and one number.");
+      return false;
+    }
+    return true;
+  };
+
   async function handleRegister(e) {
-    e.preventDefault()
-    setLoading(true)
+    e.preventDefault();
+    if (!validateInput()) return;
+
+    setLoading(true);
     try {
-      await axios.post(`${apiUrl}/api/register`, {username, password, avatar})
-      // registration succesfull redirect to login page
-      navigate("/login")
-    } catch(err) {
-      console.error("Error during registration: ", err)
-      // TODO: SHOW CANT REGISTER TO USER
-      alert("Registration failed. Please try again.")
+      await axios.post(`${apiUrl}/api/register`, { username, password, avatar });
+      // Registration successful, redirect to login page
+      navigate("/login");
+    } catch (err) {
+      console.error("Error during registration: ", err);
+      toast.error("Registration failed. Please try again.");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
@@ -46,11 +73,11 @@ function Register() {
       {loading && <Loader />}
       <div className="bg-[#ECDDD9] flex flex-col justify-center lg:w-1/4 w-3/4 rounded-xl border-2 border-slate-700 p-1 or-shadow z-10">
         <div className="m-6">
-          <h1 className="text-slate-700 text-4xl">Register</h1>
+          <h1 className="text-slate-700 text-4xl cursor-default">Register</h1>
         </div>
         <div>
           <form onSubmit={handleRegister}>
-            <SelectAvatar avatar={avatar} getAvatar={getAvatar}/>
+            <SelectAvatar avatar={avatar} getAvatar={getAvatar} />
             <div className="flex flex-col justify-start p-1 md:p-3">
               <label
                 htmlFor="username"
@@ -66,8 +93,8 @@ function Register() {
                 placeholder="Enter your username"
                 value={username}
                 onChange={(event) => {
-                  const val = event.target.value
-                  setUsername(val)
+                  const val = event.target.value;
+                  setUsername(val);
                 }}
               />
             </div>
@@ -87,8 +114,8 @@ function Register() {
                   placeholder="Enter your password"
                   value={password}
                   onChange={(event) => {
-                    const val = event.target.value
-                    setPassword(val)
+                    const val = event.target.value;
+                    setPassword(val);
                   }}
                 />
                 <span
@@ -119,10 +146,18 @@ function Register() {
         </div>
       </div>
       <Pattern />
-      {/* <div className='w-full flex flex-row justify-center absolute bg-white bottom-0 h-1/2 overflow-hidden' style={{backgroundImage: "url(https://www.transparenttextures.com/patterns/arches.png)", backgroundColor:"white"}}>
-        <img className='w-full absolute top-0' src={Waves} alt="waves" />
-        <div className='w-full h-1/2 absolute bottom-0 -z-10 overflow-hidden' style={{backgroundImage: "url(https://www.transparenttextures.com/patterns/arches.png)", backgroundColor:"white"}}></div>
-      </div> */}
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 }

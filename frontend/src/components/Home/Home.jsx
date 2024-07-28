@@ -12,9 +12,9 @@ function Home() {
     <>
       <div className="w-full h-full flex flex-col flex-wrap justify-centerfall">
         <Logo />
-        <p className="text-3xl flex justify-center text-slate-800">
+        <p className="text-3xl flex justify-center text-slate-800 cursor-default">
           <img
-            className="size-8 m-1"
+            className="size-8 m-1 cursor-default"
             src="https://em-content.zobj.net/source/apple/391/brain_1f9e0.png"
           />
           Quiz, Compete, Conquer!
