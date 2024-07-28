@@ -5,6 +5,8 @@ import Categories from '../Options/Categories';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../Loader/Loader';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const apiUrl = import.meta.env.VITE_API_URL
 
 function Host(props) {
@@ -30,10 +32,17 @@ function Host(props) {
                 "questionURL": questionURL,
             })
             console.log(response.data)
-            const roomID = response.data.roomID
-            console.log(roomID)
-            navigate(`/room?roomID=${encodeURIComponent(roomID)}`)
-            // join room with roomID
+            const data = response.data
+            if (data.response_code === 0) {
+                // no questions
+                toast.error("Not enough questions on given parameters")
+                return
+            } else {
+                const roomID = response.data.roomID
+                console.log(roomID)
+                navigate(`/room?roomID=${encodeURIComponent(roomID)}`)
+                // join room with roomID
+            }
         } catch(error) {
             console.error("Error hosting game:", error)
         } finally {
@@ -156,6 +165,18 @@ function Host(props) {
                     </button>
                 </div>
             </div>
+            <ToastContainer
+                position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
         </div>
     )
 }

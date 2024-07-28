@@ -54,9 +54,18 @@ func CreateRoom(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Failed to fetch questions", http.StatusInternalServerError)
 		return
 	}
-	var newRoom struct {
-		RoomID string `json:"roomID"`
+	if len(questions) == 0 {
+		var noQuestions struct {
+			ResponseCode int `json:"response_code"`
+		}
+		noQuestions.ResponseCode = 0
+		json.NewEncoder(w).Encode(noQuestions)
 	}
+	var newRoom struct {
+		ResponseCode int    `json:"response_code"`
+		RoomID       string `json:"roomID"`
+	}
+	newRoom.ResponseCode = 1
 	newRoom.RoomID = roomID
 	room := GetRoom(roomID)
 	room.Questions = questions
