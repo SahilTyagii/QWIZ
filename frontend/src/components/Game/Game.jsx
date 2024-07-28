@@ -4,6 +4,7 @@ import Timer from './Timer';
 import Question from './Question';
 import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
+import Loader from '../Loader/Loader';
 
 function Game() {
   const [searchParams] = useSearchParams();
@@ -52,7 +53,7 @@ function Game() {
   return (
     <div>
       {isLoading ? (
-        <div>Loading...</div>
+        <Loader />
       ) : (
         !showQuestion ? (
           <Timer remainingTime={remainingTime} />

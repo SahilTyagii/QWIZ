@@ -21,11 +21,11 @@ function Room() {
     const [showQuestion, setShowQuestion] = useState(false)
     const { user } = useContext(AuthContext)
     const roomIDRef = useRef(null)
+    const [playerState, setPlayerState] = useState([])
 
     const {sendMessage, lastMessage} = useWebSocket(`${socketURL}/ws/${roomID}/${user.username}/${user.avatar}`, {
         onOpen: () => {
             console.log("Connected to WebSocket")
-            sendMessage(JSON.stringify({"hello": "server"}))
         },
         onClose: () => {
             console.log("Disconnected from WebSocket")
@@ -37,6 +37,13 @@ function Room() {
         window.navigator.clipboard.writeText(roomID)
     }
 
+    const correctAns = (correct) => {
+        const msg = JSON.stringify({
+            "action": correct ? "correct_answer" : "wrong_answer",
+        })
+        sendMessage(msg)
+    }
+    
     useEffect(() => {
         console.log(`${socketURL}/ws/${roomID}/${user.username}`)
         console.log(`roomID: ${roomID}`)
@@ -59,11 +66,22 @@ function Room() {
                     setGameStarted(true)
                     setQuestions(message.data)
                     break;
+                case "player_state":
+                    updatePlayerState(message.data)
+                    break
                 default:
                     break
             }
         }
     }, [lastMessage, roomID])
+
+    function updatePlayerState(newPlayerState) {
+        setPlayerState(prevStates => {
+            const updatedStates = prevStates.filter(player => player.player !== newPlayerState.player);
+            const newStates = [...updatedStates, newPlayerState];
+            return newStates.sort((a, b) => b.state.score - a.state.score)
+        });
+    }
 
     function handleStartGame() {
         sendMessage(JSON.stringify({action: "start_game"}))
@@ -98,7 +116,7 @@ function Room() {
             gameStarted ? (
                 <div>
                     {showQuestion ? (
-                        <MpQuestion questions={questions}/>
+                        <MpQuestion questions={questions} correctAns={correctAns} playerState={playerState} user={user}/>
                     ) : (
                         <ThreeSec remainingTime = {remainingTime} />
                     )}

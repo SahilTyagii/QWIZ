@@ -6,6 +6,7 @@ import Pattern from "../Pattern";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { AuthContext } from "../../context/AuthContext";
+import Loader from "../Loader/Loader";
 const apiUrl = import.meta.env.VITE_API_URL
 
 const Login = () => {
@@ -13,6 +14,7 @@ const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false)
     const { login } = useContext(AuthContext);
 
     const togglePasswordVisibility = () => {
@@ -21,6 +23,7 @@ const Login = () => {
 
     async function handleLogin(e) {
         e.preventDefault();
+        setLoading(true)
         try {
             const response = await axios.post(`${apiUrl}/api/login`, {
                 username,
@@ -32,11 +35,16 @@ const Login = () => {
         } catch (err) {
             console.error("Error during login:", err);
             alert("Login failed. Please check your username and password.");
+        } finally {
+            setLoading(false)
         }
     }
 
     return (
         <div className="flex justify-center items-center p-12">
+            {
+                loading && <Loader />
+            }
             <div className="bg-[#ECDDD9] flex flex-col justify-center lg:w-1/4 w-3/4 rounded-xl border-2 border-slate-700 p-1 or-shadow z-10">
                 <div className="m-6">
                     <h1 className="text-slate-700 text-4xl">LOGIN</h1>

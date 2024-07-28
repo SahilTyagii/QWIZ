@@ -4,6 +4,7 @@ import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import Categories from '../Options/Categories';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Loader from '../Loader/Loader';
 const apiUrl = import.meta.env.VITE_API_URL
 
 function Host(props) {
@@ -12,6 +13,7 @@ function Host(props) {
     const difficulties = ["Any Difficulty", "easy", "medium", "hard"]
     const [settings, setSettings] = useState({category: {name: Categories[0].name, id: Categories[0].id}, difficulty: difficulties[0]})
     const [questionURL, setQuestionURL] = useState(`https://opentdb.com/api.php?amount=50&category=${settings.category.id}`)
+    const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -21,11 +23,11 @@ function Host(props) {
 
     const handleHostGame = async (event) => {
         event.preventDefault();
+        setLoading(true)
         console.log(questionURL)
         try {
             const response = await axios.post(`${apiUrl}/create-room`, {
-                "category": settings.category.id,
-                "difficulty": settings.difficulty
+                "questionURL": questionURL,
             })
             console.log(response.data)
             const roomID = response.data.roomID
@@ -34,11 +36,14 @@ function Host(props) {
             // join room with roomID
         } catch(error) {
             console.error("Error hosting game:", error)
+        } finally {
+            setLoading(false)
         }
     }
 
     return (
         <div className="bg-[#ECDDD9] flex flex-col justify-center lg:w-1/4 w-[98%] rounded-xl border-2 border-slate-700 p-1 or-shadow z-10">
+            {loading && <Loader />}
             <div className="m-6">
                 <h1 className="text-slate-700 text-4xl">Host game</h1>
             </div>

@@ -6,6 +6,7 @@ import Pattern from "../Pattern";
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import SelectAvatar from "../SelectAvatar";
+import Loader from "../Loader/Loader";
 const apiUrl = import.meta.env.VITE_API_URL
 
 function Register() {
@@ -13,6 +14,7 @@ function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
   function getAvatar(v) {
@@ -25,6 +27,7 @@ function Register() {
 
   async function handleRegister(e) {
     e.preventDefault()
+    setLoading(true)
     try {
       await axios.post(`${apiUrl}/api/register`, {username, password, avatar})
       // registration succesfull redirect to login page
@@ -33,11 +36,14 @@ function Register() {
       console.error("Error during registration: ", err)
       // TODO: SHOW CANT REGISTER TO USER
       alert("Registration failed. Please try again.")
+    } finally {
+      setLoading(false)
     }
   }
 
   return (
     <div className="flex justify-center items-center p-12 h-full">
+      {loading && <Loader />}
       <div className="bg-[#ECDDD9] flex flex-col justify-center lg:w-1/4 w-3/4 rounded-xl border-2 border-slate-700 p-1 or-shadow z-10">
         <div className="m-6">
           <h1 className="text-slate-700 text-4xl">Register</h1>

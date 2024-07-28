@@ -1,12 +1,15 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import Pattern from '../Pattern';
+import Loader from '../Loader/Loader';
 const apiUrl = import.meta.env.VITE_API_URL
 
 function Leaderboard() {
     const [users, setUsers] = useState([]);
+    const [loading, setLoading] = useState(false)
 
     async function getAllUsers() {
+        setLoading(true)
         try {
             const token = localStorage.getItem('token');
             const response = await axios.get(`${apiUrl}/api/users`, {
@@ -16,6 +19,8 @@ function Leaderboard() {
             setUsers((prev) => prev.sort((a, b) => b.highscore - a.highscore))
         } catch (err) {
             console.error("Error fetching users:", err);
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -26,8 +31,8 @@ function Leaderboard() {
     return (
         <div className='flex justify-center m-auto'>
             <div className='bg-white/30 backdrop:blur-sm shadow-2xl flex flex-col justify-center items-center p-2 md:w-2/4 w-[95%] rounded-xl'>
-                {users.length === 0 ? (
-                    <p className='text-center text-lg'>Loading...</p>
+                {loading || users.length === 0 ? (
+                    <Loader />
                 ) : (
                     users.map((item) => (
                         <div className='bg-blue-900/30 backdrop-blur-sm shadow-2xl p-2 rounded-full flex md:w-3/4 w-[95%] m-4 hover:scale-110 ease-in-out duration-200' key={item._id}>

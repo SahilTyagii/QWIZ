@@ -1,19 +1,34 @@
 /* eslint-disable react/prop-types */
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import MpScoreCard from './MpScoreCard'
 import { Link } from 'react-router-dom'
+import Scoreboard from './Scoreboard'
 
 function MpTimeUp(props) {
+    const [isWinner, setIsWinner] = useState(false)
+   
+    useEffect(() => {
+        const playerScores = props.playerState.map(player => player.state.score);
+        const maxScore = Math.max(...playerScores);
+        const currentPlayerScore = props.playerState.find(player => player.player === props.user.username)?.state.score || 0;
+        setIsWinner(currentPlayerScore === maxScore);
+    }, [props.playerState, props.user.username]);
+
   return (
     <div className='flex flex-col justify-center'>
         <div className='flex justify-center'>
             <img className='' src="https://em-content.zobj.net/source/apple/391/skull_1f480.png" alt="Skull" />
         </div>
         <div>
-            <h1 className='text-black text-[3rem]'>Time&#39;s up!</h1>
+            <h1 className='text-black text-[3rem]'>
+                {
+                    isWinner ? "You won!" : "Game over!"
+                }
+            </h1>
         </div>
-        <div className='flex justify-center'>
+        <div className='flex flex-col justify-center'>
             <MpScoreCard points={props.points}/>
+            <Scoreboard playerState={props.playerState} user={props.user}/>
         </div>
         <div>
             <Link to='/lobby'>

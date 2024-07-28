@@ -10,7 +10,7 @@ function TimeUp(props) {
             <img className='' src="https://em-content.zobj.net/source/apple/391/skull_1f480.png" alt="Skull" />
         </div>
         <div>
-            <h1 className='text-black text-[3rem]'>Time&#39;s up!</h1>
+            <h1 className='text-black text-[3rem]'>Game over!</h1>
         </div>
         <div className='flex justify-center'>
             <ScoreCard points={props.points}/>

@@ -3,8 +3,7 @@ import Name from "../../assets/name.png";
 import { NavLink, Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
-import RestartAltRoundedIcon from '@mui/icons-material/RestartAltRounded';
-import LeaderboardRoundedIcon from '@mui/icons-material/LeaderboardRounded';
+import LoopRoundedIcon from '@mui/icons-material/LoopRounded';import LeaderboardRoundedIcon from '@mui/icons-material/LeaderboardRounded';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
@@ -20,7 +19,7 @@ function Navbar() {
     };
 
     if (loading) {
-        return <div className="animate-spin"><RestartAltRoundedIcon /></div>; // Or a spinner, or any loading indicator
+        return <div className="animate-spin"><LoopRoundedIcon /></div>;
     }
 
     return (

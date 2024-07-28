@@ -40,10 +40,16 @@ func GetRoom(roomID string) *Room {
 
 func CreateRoom(w http.ResponseWriter, r *http.Request) {
 	roomID := idGenerator(6)
-	category := r.URL.Query().Get("category")
-	difficulty := r.URL.Query().Get("difficulty")
+	var requestBody struct {
+		QuestionURL string `json:"questionURL"`
+	}
 
-	questions, err := fetchQuestions(category, difficulty)
+	if err := json.NewDecoder(r.Body).Decode(&requestBody); err != nil {
+		http.Error(w, "Invalid request payload", http.StatusBadRequest)
+		return
+	}
+	fmt.Println(requestBody.QuestionURL)
+	questions, err := fetchQuestions(requestBody.QuestionURL)
 	if err != nil {
 		http.Error(w, "Failed to fetch questions", http.StatusInternalServerError)
 		return
@@ -57,7 +63,7 @@ func CreateRoom(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(newRoom)
 }
 
-func fetchQuestions(category string, difficulty string) ([]models.Question, error) {
+func fetchQuestions(questionURL string) ([]models.Question, error) {
 	tokenURL := "https://opentdb.com/api_token.php?command=request"
 	tokenResp, err := http.Get(tokenURL)
 	if err != nil {
@@ -74,7 +80,8 @@ func fetchQuestions(category string, difficulty string) ([]models.Question, erro
 		return nil, err
 	}
 
-	url := fmt.Sprintf("https://opentdb.com/api.php?amount=30&category=%s&difficulty=%s&token=%s", category, difficulty, token.Token)
+	url := fmt.Sprintf("%s&token=%s", questionURL, token.Token)
+	fmt.Println(url)
 	resp, err := http.Get(url)
 	if err != nil {
 		return nil, err

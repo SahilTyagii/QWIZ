@@ -1,13 +1,28 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Loader from "../Loader/Loader";
 
 function Join(props) {
     const [roomID, setRoomID] = useState("")
+    const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
+
+    const validateRoomID = (roomID) => {
+        const re = /^[0-9]/
+        return re.test(roomID)
+    }
     
     async function handleJoinGame(event) {
         event.preventDefault()
+        if (!roomID) {
+            alert("Please enter RoomId")
+        }
+        if (!validateRoomID(roomID)) {
+            alert("Please enter valid RoomId")
+            return
+        }
         if (roomID) {
+            setLoading(true)
             try {
                 // const response = await axios.get(`http://localhost:4000/ws/${roomID}`)
                 // if (response.status === 200) {
@@ -16,12 +31,15 @@ function Join(props) {
                 navigate(`/room?roomID=${roomID}`)
             } catch(error) {
                 console.error('Error joining room:', error);
+            }  finally {
+                setLoading(false)
             }
         }
     }
 
   return (
     <div className="bg-[#ECDDD9] flex flex-col justify-center lg:w-1/4 w-[98%] rounded-xl border-2 border-slate-700 p-1 or-shadow z-10">
+        {loading && <Loader />}
         <div className="m-6">
                 <h1 className="text-slate-700 text-4xl">Join game</h1>
             </div>

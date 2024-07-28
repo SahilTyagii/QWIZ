@@ -42,10 +42,12 @@ func (c *Client) ReadPump() {
 		}
 		if action, ok := msg["action"].(string); ok {
 			switch action {
-			case "answer":
-				c.handleAnswer(msg)
 			case "start_game":
 				c.handleStartGame()
+			case "wrong_answer":
+				c.handleAnswer(false)
+			case "correct_answer":
+				c.handleAnswer(true)
 			}
 		}
 		fmt.Println("Message:", string(message))
@@ -102,23 +104,17 @@ func (c *Client) broadcastState(action string, data interface{}) {
 	}
 }
 
-func (c *Client) handleAnswer(msg map[string]interface{}) {
-	answer, _ := msg["answer"].(string)
-	question := c.Room.Questions[c.State.CurrentQuestion]
-
-	if answer == question.CorrectAnswer {
+func (c *Client) handleAnswer(correct bool) {
+	if correct {
 		c.State.Score++
 	}
 
 	c.State.CurrentQuestion++
-	if c.State.CurrentQuestion < len(c.Room.Questions) {
-		nextQuestion := c.Room.Questions[c.State.CurrentQuestion]
-		c.broadcastState("next_question", nextQuestion)
-	} else {
-		c.broadcastState("game_over", map[string]interface{}{
-			"score": c.State.Score,
-		})
-	}
+
+	c.broadcastState("player_state", map[string]interface{}{
+		"player": c.Username,
+		"state":  c.State,
+	})
 }
 
 func (c *Client) WritePump() {

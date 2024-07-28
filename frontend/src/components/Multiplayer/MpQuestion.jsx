@@ -5,12 +5,13 @@ import MpPoints from './MpPoints';
 import MpTimeUp from './MpTimeUp';
 import MpQuestionCard from './MpQuestionCard';
 import he from 'he';
+import Scoreboard from './Scoreboard';
 
 function MpQuestion(props) {
   const Questions = props.questions;
   const [points, setPoints] = useState([]);
   const [questionCount, setQuestionCount] = useState(1);
-  const [time, setTime] = useState(500);
+  const [time, setTime] = useState(60);
   const [timeOver, setTimeOver] = useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [gameOver, setGameOver] = useState(false);
@@ -60,19 +61,21 @@ function MpQuestion(props) {
     ));
     setQuestionCount(prev => prev + 1);
     setCurrentQuestionIndex(prev => prev + 1);
+    props.correctAns(answer === question.correct_answer)
   }
 
   return (
     <div>
       {timeOver || gameOver ? (
-        <MpTimeUp points={points} />
+        <MpTimeUp points={points} playerState={props.playerState} user={props.user}/>
       ) : (
         <>
-          <MpQCountAndTime questionCount={questionCount} time={time} />
-          <div className='lg:w-1/3 w-full m-auto'>
+          <MpQCountAndTime questionCount={questionCount} time={time} points={points} />
+          <div className='lg:w-1/3 w-full m-auto md:hidden'>
             <MpPoints points={points} sc={false} />
           </div>
           <MpQuestionCard question={question.question} shuffledAnswers={shuffledAnswers} onSelectAnswer={onSelectAnswer} />
+          <Scoreboard playerState={props.playerState} user={props.user}/>
         </>
       )}
     </div>
