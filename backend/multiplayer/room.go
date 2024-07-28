@@ -60,6 +60,7 @@ func CreateRoom(w http.ResponseWriter, r *http.Request) {
 		}
 		noQuestions.ResponseCode = 0
 		json.NewEncoder(w).Encode(noQuestions)
+		return
 	}
 	var newRoom struct {
 		ResponseCode int    `json:"response_code"`

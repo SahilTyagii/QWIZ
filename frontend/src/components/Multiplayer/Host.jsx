@@ -24,31 +24,34 @@ function Host(props) {
     }, [settings])
 
     const handleHostGame = async (event) => {
-        event.preventDefault();
-        setLoading(true)
-        console.log(questionURL)
-        try {
-            const response = await axios.post(`${apiUrl}/create-room`, {
-                "questionURL": questionURL,
-            })
-            console.log(response.data)
-            const data = response.data
-            if (data.response_code === 0) {
-                // no questions
-                toast.error("Not enough questions on given parameters")
-                return
-            } else {
-                const roomID = response.data.roomID
-                console.log(roomID)
-                navigate(`/room?roomID=${encodeURIComponent(roomID)}`)
-                // join room with roomID
-            }
-        } catch(error) {
-            console.error("Error hosting game:", error)
-        } finally {
-            setLoading(false)
+    event.preventDefault();
+    setLoading(true);
+    console.log(questionURL);
+    try {
+        const response = await axios.post(`${apiUrl}/create-room`, {
+            "questionURL": questionURL,
+        });
+        console.log(response.data);
+        const data = response.data;
+        if (data.response_code === 0) {
+            // no questions
+            toast.error("Not enough questions on given parameters");
+            setLoading(false);
+            return;
+        } else {
+            const roomID = response.data.roomID;
+            console.log(roomID);
+            navigate(`/room?roomID=${encodeURIComponent(roomID)}`);
+            // join room with roomID
         }
+    } catch (error) {
+        console.error("Error hosting game:", error);
+    } finally {
+        setLoading(false);
     }
+}
+
+    
 
     return (
         <div className="bg-[#ECDDD9] flex flex-col justify-center lg:w-1/4 w-[98%] rounded-xl border-2 border-slate-700 p-1 or-shadow z-10">
