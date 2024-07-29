@@ -78,33 +78,35 @@ function Host(props) {
                         </button>
                     </div>
                     {categoryOpen && (
-                        <div className="text-black absolute items-start p-2 w-auto bg-white/30 rounded-md grid md:grid-cols-2 mx-3 backdrop-blur-sm z-20 max-h-60 overflow-y-auto custom-scrollbar">
-                            {Categories.map((item) => (
-                                <div
-                                    key={item.id}
-                                    id={item.id}
-                                    className="flex flex-col justify-between bg-white m-2 rounded-full"
-                                >
-                                    <button
-                                        onClick={(event) => {
-                                            setSettings((prev) => ({
-                                                ...prev,
-                                                category: {
-                                                    name: item.name,
-                                                    id: item.id
-                                                }
-                                            }))
-                                            setCategoryOpen(false);
-                                            event.preventDefault();
-                                        }}
-                                        className="rounded-md p-1 bg-[#DCA256] hover:scale-110 border-2 border-slate-700"
-                                    >
-                                        {item.name}
-                                    </button>
-                                </div>
-                            ))}
-                        </div>
-                    )}
+              <div className="text-black items-start w-full bg-white/30 rounded-md grid md:grid-cols-1 backdrop-blur-sm z-20 max-h-60 overflow-auto custom-scrollbar">
+                {Categories.map((item) => (
+                  <div
+                    key={item.id}
+                    id={item.id}
+                    className="flex flex-col justify-between bg-white m-2 mx-4 rounded-full w-[calc(100%-2rem)]"
+                  >
+                    <button
+                      onClick={(event) => {
+                        setSettings((prev) => ({
+                          ...prev,
+                          category: {
+                            name: item.name,
+                            id: item.id
+                          }
+                        }));
+                        setCategoryOpen(false);
+                        event.preventDefault();
+                      }}
+                      className="rounded-md p-1 bg-[#DCA256] hover:scale-105 border-2 border-slate-700 w-full"
+                    >
+                      {item.name}
+                    </button>
+                    
+                  </div>
+                ))}
+                <div className='dropdown-gradient'></div>
+              </div>
+            )}
                     <div className="flex flex-col justify-start p-1 md:p-3 rounded-md">
                         <label htmlFor="difficulty" className='text-left text-lg text-black p-2'>Choose Difficulty</label>
                         <button
@@ -122,30 +124,33 @@ function Host(props) {
                         </button>
                     </div>
                     {difficultyOpen && (
-                        <div className="text-black absolute items-start p-2 w-auto bg-white/30 rounded-md grid grid-cols-2 mx-3 backdrop-blur-sm z-20 max-h-40 overflow-y-auto custom-scrollbar">
-                            {difficulties.map((item, index) => (
-                                <div
-                                    key={index}
-                                    id={index}
-                                    className="flex flex-col justify-between bg-white m-2 rounded-full"
-                                >
-                                    <button
-                                        onClick={(event) => {
-                                            setSettings((prev) => ({
-                                                ...prev,
-                                                difficulty: difficulties[index]
-                                            }))
-                                            setDifficultyOpen(false);
-                                            event.preventDefault();
-                                        }}
-                                        className="rounded-md p-1 bg-[#DCA256] hover:scale-110 border-2 border-slate-700"
-                                    >
-                                        {item}
-                                    </button>
-                                </div>
-                            ))}
-                        </div>
-                    )}
+              
+              <div className="text-black items-start p-2 w-[calc(100%+2rem)] bg-white/30 rounded-md grid grid-cols-1 mx-[-1rem] backdrop-blur-sm z-20 max-h-60 overflow-auto custom-scrollbar">
+                {difficulties.map((item, index) => (
+                  <div key={index}>
+                  <div
+                    
+                    id={index}
+                    className="flex flex-col justify-between bg-white m-2 mx-4 rounded-full w-[calc(100%-2rem)]"
+                  >
+                    <button
+                      onClick={(event) => {
+                        setSettings((prev) => ({
+                          ...prev,
+                          difficulty: difficulties[index]
+                        }));
+                        setDifficultyOpen(false);
+                        event.preventDefault();
+                      }}
+                      className="rounded-md p-1 bg-[#DCA256] hover:scale-105 border-2 border-slate-700 w-full"
+                    >
+                      {item}
+                    </button>
+                  </div>
+                  </div>
+                ))}
+              </div>
+            )}
                     <div className="my-6 h-12 mx-1 lg:mx-3">
                         <button
                             type="submit"
