@@ -171,7 +171,7 @@ func deleteRoom(roomID string) {
 		return
 	}
 
-	fmt.Println("Deleting room: ", roomID)
+	// fmt.Println("Deleting room: ", roomID)
 	for client := range room.Clients {
 		client.Conn.Close()
 	}
