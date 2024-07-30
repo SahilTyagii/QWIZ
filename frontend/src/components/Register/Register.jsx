@@ -30,7 +30,7 @@ function Register() {
 
   const validateInput = () => {
     const usernamePattern = /^[a-zA-Z0-9_]{3,20}$/;
-    const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{3,}$/;
+    const passwordPattern = /^[A-Za-z\d@]{3,}$/;
 
     if (!username) {
       toast.error("Username is required.");
@@ -45,7 +45,7 @@ function Register() {
       return false;
     }
     if (!passwordPattern.test(password)) {
-      toast.error("Password must be at least 3 characters long, with at least one letter and one number.");
+      toast.error("Password must be at least 3 characters long, and should not contain special characters.");
       return false;
     }
     return true;
