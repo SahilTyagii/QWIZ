@@ -50,6 +50,7 @@ func CreateRoom(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Println(requestBody.QuestionURL)
 	questions, err := fetchQuestions(requestBody.QuestionURL)
+	fmt.Println("Questions fetched")
 	if err != nil {
 		http.Error(w, "Failed to fetch questions", http.StatusInternalServerError)
 		return

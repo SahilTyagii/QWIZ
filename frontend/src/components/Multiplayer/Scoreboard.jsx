@@ -16,7 +16,10 @@ function Scoreboard(props) {
               <div key={index}>
                 {
                   (
-                    <div className='text-black flex justify-around text-xl m-2 cursor-default'>
+                    <div className='text-black flex justify-between text-xl mx-8 my-2 cursor-default'>
+                      <h1>
+                        {`${index+1}${index === 0 ? "st" : (index === 1 ? "nd" : (index === 2 ? "rd" : "th"))}`}
+                      </h1>
                       <h1>
                         {player.player}{player.player === props.user.username && (
                           " (YOU)"

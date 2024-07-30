@@ -79,7 +79,7 @@ function Room() {
         setPlayerState(prevStates => {
             const updatedStates = prevStates.filter(player => player.player !== newPlayerState.player);
             const newStates = [...updatedStates, newPlayerState];
-            return newStates.sort((a, b) => b.state.score - a.state.score)
+            return newStates.sort((a, b) => b.state.Score - a.state.Score)
         });
     }
 

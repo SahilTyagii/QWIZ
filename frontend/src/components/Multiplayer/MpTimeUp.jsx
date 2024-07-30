@@ -8,16 +8,21 @@ function MpTimeUp(props) {
     const [isWinner, setIsWinner] = useState(false)
    
     useEffect(() => {
-        const playerScores = props.playerState.map(player => player.state.score);
-        const maxScore = Math.max(...playerScores);
-        const currentPlayerScore = props.playerState.find(player => player.player === props.user.username)?.state.score || 0;
+        const playerScores = props.playerState.map(player => player.state.Score);
+        
+        const maxScore = playerScores.length > 0 ? Math.max(...playerScores) : 0;
+    
+        const currentPlayer = props.playerState.find(player => player.player === props.user.username);
+        const currentPlayerScore = currentPlayer?.state.Score || 0;
+    
         setIsWinner(currentPlayerScore === maxScore);
+    
     }, [props.playerState, props.user.username]);
 
   return (
     <div className='flex flex-col justify-center'>
         <div className='flex justify-center'>
-            <img className='' src="https://em-content.zobj.net/source/apple/391/skull_1f480.png" alt="Skull" />
+            <img className='' src={isWinner ? "https://em-content.zobj.net/source/apple/354/moai_1f5ff.png" : "https://em-content.zobj.net/source/apple/391/skull_1f480.png"} alt="Skull" />
         </div>
         <div>
             <h1 className='text-black text-[3rem] cursor-default'>
