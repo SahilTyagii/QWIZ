@@ -9,6 +9,7 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import Loader from "../Loader/Loader";
 
 function Navbar() {
     const { isAuthenticated, user, logout, loading } = useContext(AuthContext);
@@ -19,7 +20,7 @@ function Navbar() {
     };
 
     if (loading) {
-        return <div className="animate-spin"><LoopRoundedIcon /></div>;
+        return <Loader />;
     }
 
     return (
