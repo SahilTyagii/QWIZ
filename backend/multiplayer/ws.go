@@ -103,13 +103,16 @@ func (h *Hub) Run() {
 				client.Room.Host = client
 			}
 			client.Room.Mutex.Unlock()
-			fmt.Println("Registered client succesfully: ", client.Username)
+			fmt.Println("Registered client successfully: ", client.Username)
 		case client := <-h.Unregister:
 			fmt.Println("Unregistering client: ", client.Username)
 			client.Room.Mutex.Lock()
 			if _, ok := client.Room.Clients[client]; ok {
 				delete(client.Room.Clients, client)
 				close(client.Send)
+			}
+			if len(client.Room.Clients) == 0 {
+				deleteRoom(client.Room.ID)
 			}
 			client.Room.Mutex.Unlock()
 		}
