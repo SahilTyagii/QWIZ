@@ -5,6 +5,9 @@ import Points from './Points';
 import TimeUp from './TimeUp';
 import QuestionCard from './QuestionCard';
 import he from 'he';
+import Correct from "../../assets/Correct.mp3"
+import Incorrect from "../../assets/Incorrect.mp3"
+import GameOver from "../../assets/GameOver.mp3"
 
 function Question(props) {
   const Questions = props.questions;
@@ -31,7 +34,11 @@ function Question(props) {
         incorrect_answers: Questions[currentQuestionIndex].incorrect_answers.map(answer => he.decode(answer))
       });
     } else {
-      setGameOver(true); // Set game over when no more questions
+      setGameOver(true);
+      props.countdownStop()
+      setTimeout(() => {
+        new Audio(GameOver).play()
+      }, 500)
     }
   }, [currentQuestionIndex, Questions]);
 
@@ -51,6 +58,11 @@ function Question(props) {
       return () => clearTimeout(timer);
     } else if (time === 0) {
       setTimeOver(true);
+      props.countdownStop()
+      setTimeout(() => {
+        new Audio(GameOver).play()
+      }, 500)
+      
     }
   }, [time, gameOver]);
 
@@ -60,6 +72,7 @@ function Question(props) {
     ));
     setQuestionCount(prev => prev + 1);
     setCurrentQuestionIndex(prev => prev + 1);
+    new Audio(answer === question.correct_answer ? Correct : Incorrect).play()
   }
 
   return (

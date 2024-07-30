@@ -24,9 +24,11 @@ type Room struct {
 
 func GetRoom(roomID string) *Room {
 	hub.Mutex.Lock()
+	fmt.Println("Acquiring lock")
 	defer hub.Mutex.Unlock()
 	room, exists := hub.Rooms[roomID]
 	if !exists {
+		fmt.Println("Room doesnt exist, creating one")
 		room = &Room{
 			ID:           roomID,
 			Clients:      make(map[*Client]bool),
@@ -70,7 +72,9 @@ func CreateRoom(w http.ResponseWriter, r *http.Request) {
 	newRoom.ResponseCode = 1
 	newRoom.RoomID = roomID
 	room := GetRoom(roomID)
+	fmt.Println("Room created")
 	room.Questions = questions
+	fmt.Println("Questions added")
 	json.NewEncoder(w).Encode(newRoom)
 }
 

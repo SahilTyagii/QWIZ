@@ -5,6 +5,8 @@ import Question from './Question';
 import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import Loader from '../Loader/Loader';
+import Countdown from "../../assets/Countdown.mp3";
+import three from "../../assets/3sec.mp3";
 
 function Game() {
   const [searchParams] = useSearchParams();
@@ -13,6 +15,13 @@ function Game() {
   const [isLoading, setIsLoading] = useState(true);
   const [showQuestion, setShowQuestion] = useState(false);
   const [remainingTime, setRemainingTime] = useState(3);
+  const [audio] = useState(new Audio(Countdown));
+  
+  // Function to handle cleanup
+  const cleanupAudio = () => {
+    audio.pause();
+    audio.currentTime = 0;
+  };
 
   async function getQuestionsFromAPI(url) {
     try {
@@ -21,7 +30,7 @@ function Game() {
       const finalURL = `${url}&token=${token}`;
       const response = await axios.get(finalURL);
       setQuestions(response.data.results);
-      setIsLoading(false)
+      setIsLoading(false);
       console.log(`URL: ${finalURL}`);
       console.log(`Token: ${token}`);
       console.log("response: ", response.data.results);
@@ -31,6 +40,9 @@ function Game() {
   }
 
   useEffect(() => {
+    if (remainingTime === 3) {
+      new Audio(three).play();
+    }
     if (questionURL) {
       console.log('Fetching questions from API...');
       getQuestionsFromAPI(questionURL);
@@ -40,15 +52,24 @@ function Game() {
   }, [questionURL]);
 
   useEffect(() => {
+    let timer;
     if (remainingTime > 0) {
-      const timer = setTimeout(() => {
+      timer = setTimeout(() => {
         setRemainingTime(prevTime => prevTime - 1);
       }, 1000);
-      return () => clearTimeout(timer);
     } else {
       setShowQuestion(true);
+      audio.play();
     }
-  }, [remainingTime]);
+    return () => {
+      clearTimeout(timer); // Cleanup the timer
+      cleanupAudio(); // Cleanup the audio
+    };
+  }, [remainingTime, audio]);
+
+  function countdownStop() {
+    cleanupAudio();
+  }
 
   return (
     <div>
@@ -58,10 +79,9 @@ function Game() {
         !showQuestion ? (
           <Timer remainingTime={remainingTime} />
         ) : (
-          <Question questions={questions} />
+          <Question questions={questions} countdownStop={countdownStop} />
         )
       )}
-      
       <Pattern />
     </div>
   );
