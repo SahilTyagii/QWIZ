@@ -19,7 +19,7 @@ func main() {
 
 	// Apply CORS middleware
 	corsHandler := handlers.CORS(
-		handlers.AllowedOrigins([]string{"http://localhost:5173", "https://qwiz-three.vercel.app"}),
+		handlers.AllowedOrigins([]string{"*", "http://localhost:5173", "https://qwiz-three.vercel.app"}),
 		handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}),
 		handlers.AllowedHeaders([]string{"Content-Type", "Authorization"}),
 	)(r)

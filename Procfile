@@ -1,1 +1,1 @@
-web: cd backend && go build -o server && ./server
+web: go build -o server && ./server
