@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/SahilTyagii/qwiz-backend/router"
 	"github.com/gorilla/handlers"
@@ -23,7 +24,12 @@ func main() {
 		handlers.AllowedHeaders([]string{"Content-Type", "Authorization"}),
 	)(r)
 
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "4000" // Fallback to 4000 for local development
+	}
+
 	fmt.Println("Server is getting started...")
 	fmt.Println("Listening at port 4000...")
-	log.Fatal(http.ListenAndServe(":4000", corsHandler))
+	log.Fatal(http.ListenAndServe(":"+port, corsHandler))
 }
