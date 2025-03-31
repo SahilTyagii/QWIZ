@@ -1,0 +1,7 @@
+build:
+  languages:
+    - go
+  config:
+    GO_MOD_PATH: backend
+run:
+  web: cd backend && go build -o server && ./server
