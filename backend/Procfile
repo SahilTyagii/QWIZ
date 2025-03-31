@@ -1,1 +1,1 @@
-web: ./$(ls | grep backend)
+web: cd backend && go build -o server && ./server
