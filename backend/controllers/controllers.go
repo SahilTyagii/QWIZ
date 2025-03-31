@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/SahilTyagii/qwiz-backend/helper"
-	"github.com/SahilTyagii/qwiz-backend/models"
+	"github.com/SahilTyagii/qwiz/backend/helper"
+	"github.com/SahilTyagii/qwiz/backend/models"
 	"github.com/gorilla/context"
 	"github.com/gorilla/mux"
 )

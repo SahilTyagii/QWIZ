@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/SahilTyagii/qwiz-backend/router"
+	"github.com/SahilTyagii/qwiz/backend/router"
 	"github.com/gorilla/handlers"
 	"github.com/joho/godotenv"
 )

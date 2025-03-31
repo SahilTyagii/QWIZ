@@ -9,7 +9,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/SahilTyagii/qwiz-backend/models"
+	"github.com/SahilTyagii/qwiz/backend/models"
 )
 
 type Room struct {

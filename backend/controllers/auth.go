@@ -9,8 +9,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/SahilTyagii/qwiz-backend/helper"
-	"github.com/SahilTyagii/qwiz-backend/models"
+	"github.com/SahilTyagii/qwiz/backend/helper"
+	"github.com/SahilTyagii/qwiz/backend/models"
 	"github.com/golang-jwt/jwt"
 	"github.com/joho/godotenv"
 	"golang.org/x/crypto/bcrypt"

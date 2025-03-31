@@ -1,9 +1,9 @@
 package router
 
 import (
-	"github.com/SahilTyagii/qwiz-backend/controllers"
-	"github.com/SahilTyagii/qwiz-backend/middleware"
-	"github.com/SahilTyagii/qwiz-backend/multiplayer"
+	"github.com/SahilTyagii/qwiz/backend/controllers"
+	"github.com/SahilTyagii/qwiz/backend/middleware"
+	"github.com/SahilTyagii/qwiz/backend/multiplayer"
 	"github.com/gorilla/mux"
 )
 

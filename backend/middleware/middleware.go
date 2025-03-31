@@ -5,7 +5,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/SahilTyagii/qwiz-backend/controllers"
+	"github.com/SahilTyagii/qwiz/backend/controllers"
 	"github.com/golang-jwt/jwt"
 	"github.com/gorilla/context"
 )
