@@ -23,7 +23,8 @@ Welcome to **QWIZ**, an engaging and interactive quiz game where users can chall
 1. [Installation](#installation)
 2. [Usage](#usage)
 3. [Tech Stack](#tech-stack)
-4. [Screenshots](#screenshots)
+4. [Backend Architecture](#backend-architecture)
+5. [Screenshots](#screenshots)
    
 ## **Installation**
 
@@ -100,6 +101,18 @@ The backend server will be available at `http://localhost:4000`.
 - **Visual Studio Code**: The primary code editor used for development.
 - **Postman**: For testing and debugging API endpoints.
 - **Git**: Version control system for tracking changes in the codebase.
+
+## **Backend Architecture**
+
+For a comprehensive end-to-end explanation of the backend architecture, including:
+- **Authentication System** - JWT-based authentication flow with bcrypt hashing
+- **WebSocket Implementation** - Real-time multiplayer communication
+- **Concurrency & Multithreading** - Goroutines, channels, and synchronization
+- **Room Management** - Dynamic room creation and lifecycle
+- **Database Integration** - MongoDB setup and operations
+- **Request Flow Diagrams** - Visual explanations of data flow
+
+**📖 [Read the complete Backend Architecture Documentation](./BACKEND_ARCHITECTURE.md)**
   
 ## **Screenshots**
 ![image](https://github.com/user-attachments/assets/1466e692-cf43-4ff6-b063-71b424f93b85)
